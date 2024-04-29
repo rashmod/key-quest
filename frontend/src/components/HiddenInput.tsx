@@ -1,16 +1,14 @@
-import { useState } from 'react';
-
 function HiddenInput({
 	words,
 	inputRef,
+	currentInput,
+	setCurrentInput,
 	currentWordIndex,
 	setCurrentWordIndex,
 	setCurrentLetterIndex,
 	typedHistory,
 	typedWords,
 }: HiddenInputProps) {
-	const [currentInput, setCurrentInput] = useState('');
-
 	function onInputChange(event: React.ChangeEvent<HTMLInputElement>) {
 		const value = event.target.value;
 		const isCurrentWordCompleted = value.match(/\s/);
@@ -60,6 +58,8 @@ function HiddenInput({
 type HiddenInputProps = {
 	words: readonly string[];
 	inputRef: React.RefObject<HTMLInputElement>;
+	currentInput: string;
+	setCurrentInput: React.Dispatch<React.SetStateAction<string>>;
 	currentWordIndex: number;
 	setCurrentWordIndex: React.Dispatch<React.SetStateAction<number>>;
 	setCurrentLetterIndex: React.Dispatch<React.SetStateAction<number>>;
