@@ -31,7 +31,7 @@ function HiddenInput({
 		}
 
 		setCurrentInput(value);
-		setCurrentLetterIndex((current) => current + 1);
+		setCurrentLetterIndex(value.length);
 	}
 
 	function isWordCorrect() {
