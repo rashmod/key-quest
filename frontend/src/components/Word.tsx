@@ -1,3 +1,5 @@
+import clsx from 'clsx';
+
 import Letter from './Letter';
 
 function Word({
@@ -10,11 +12,11 @@ function Word({
 }: WordProps) {
 	return (
 		<span
-			className={`${wordIndex <= currentWordIndex ? 'text-white' : ''} ${
-				typedWords.current.incorrect.has(wordIndex)
-					? 'underline underline-offset-4 decoration-red-500'
-					: ''
-			}`}>
+			className={clsx({
+				'text-white': wordIndex <= currentWordIndex,
+				'underline underline-offset-4 decoration-red-500':
+					typedWords.current.incorrect.has(wordIndex),
+			})}>
 			{word.split('').map((letter, letterIndex) => (
 				<Letter
 					key={`${wordIndex}-${letterIndex}`}

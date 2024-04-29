@@ -1,3 +1,5 @@
+import clsx from 'clsx';
+
 function Letter({
 	typedHistory,
 	words,
@@ -11,7 +13,7 @@ function Letter({
 	const isTypedLetterIncorrect = typedLetter && typedLetter !== letter;
 
 	return (
-		<span className={`${isTypedLetterIncorrect ? 'text-red-500' : ''}`}>
+		<span className={clsx({ 'text-red-500': isTypedLetterIncorrect })}>
 			{letter}
 		</span>
 	);
