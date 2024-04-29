@@ -30,7 +30,7 @@ function App() {
 		const isCurrentWordCompleted = value.match(/\s/);
 
 		const wordKey = words[currentWordIndex] + '.' + currentWordIndex;
-		typedHistory.current[wordKey] = currentInput;
+		typedHistory.current[wordKey] = value.trim();
 
 		console.log(value.replace(/\s/g, '_'), value.length);
 		console.log(typedHistory.current);
@@ -47,6 +47,7 @@ function App() {
 		}
 
 		setCurrentInput(value);
+		setCurrentLetterIndex((current) => current + 1);
 	}
 
 	function isWordCorrect() {
@@ -74,8 +75,29 @@ function App() {
 									? 'underline underline-offset-4 decoration-red-500'
 									: ''
 							}`}>
-							{word.split('').map((letter) => (
-								<span>{letter}</span>
+							{word.split('').map((letter, letterIndex) => (
+								<span
+									className={`${
+										typedHistory.current[
+											words[wordIndex] + '.' + wordIndex
+										]
+											? typedHistory.current[
+													words[wordIndex] +
+														'.' +
+														wordIndex
+											  ][letterIndex]
+												? typedHistory.current[
+														words[wordIndex] +
+															'.' +
+															wordIndex
+												  ][letterIndex] === letter
+													? 'text-white'
+													: 'text-red-500'
+												: ''
+											: ''
+									}`}>
+									{letter}
+								</span>
 							))}
 						</span>
 					))}
