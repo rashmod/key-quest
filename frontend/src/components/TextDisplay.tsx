@@ -5,6 +5,7 @@ import HiddenInput from './HiddenInput';
 import Word from './Word';
 
 // todo - show caret
+// todo - fix - caret hides when typed words more than given word
 // todo - show result page
 // todo - show timer
 // todo - add ctrl backspace to delete word

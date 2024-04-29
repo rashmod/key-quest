@@ -7,6 +7,7 @@ function Word({
 	wordIndex,
 	typedHistory,
 	currentWordIndex,
+	currentLetterIndex,
 	typedWords,
 	word,
 }: WordProps) {
@@ -17,7 +18,7 @@ function Word({
 				'underline underline-offset-4 decoration-red-500':
 					typedWords.current.incorrect.has(wordIndex),
 			})}>
-			{word.split('').map((letter, letterIndex) => (
+			{(word + ' ').split('').map((letter, letterIndex) => (
 				<Letter
 					key={`${wordIndex}-${letterIndex}`}
 					words={words}
@@ -25,6 +26,8 @@ function Word({
 					wordIndex={wordIndex}
 					letterIndex={letterIndex}
 					letter={letter}
+					currentWordIndex={currentWordIndex}
+					currentLetterIndex={currentLetterIndex}
 				/>
 			))}
 		</span>
@@ -36,6 +39,7 @@ type WordProps = {
 	typedHistory: React.MutableRefObject<Record<string, string>>;
 	wordIndex: number;
 	currentWordIndex: number;
+	currentLetterIndex: number;
 	typedWords: React.MutableRefObject<{
 		correct: Set<number>;
 		incorrect: Set<number>;
