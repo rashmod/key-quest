@@ -17,7 +17,7 @@ function HiddenInput({
 		const wordKey = words[currentWordIndex] + '.' + currentWordIndex;
 		typedHistory.current[wordKey] = value.trim();
 
-		console.log(value.replace(/\s/g, '_'), value.length);
+		// console.log(value.replace(/\s/g, '_'), value.length);
 		console.log(typedHistory.current);
 
 		if (isCurrentWordCompleted) {
@@ -51,15 +51,16 @@ function HiddenInput({
 				if (currentInput.length === 0) {
 					event.preventDefault();
 
-					// const currentWordKey =
-					// 	words[currentWordIndex] + '.' + currentWordIndex;
+					const currentWordKey =
+						words[currentWordIndex] + '.' + currentWordIndex;
 					const previousWordIndex = currentWordIndex - 1;
 					const previousWordKey =
 						words[previousWordIndex] + '.' + previousWordIndex;
 					const previousWord = typedHistory.current[previousWordKey];
 
-					// delete typedHistory.current[currentWordKey];
+					delete typedHistory.current[currentWordKey];
 					typedWords.current.incorrect.delete(previousWordIndex);
+					typedHistory.current[previousWordKey] = '';
 
 					if (event.ctrlKey) {
 						setCurrentWordIndex((current) => current - 1);
