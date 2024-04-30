@@ -39,9 +39,37 @@ function HiddenInput({
 	}
 
 	function onKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
-		if (event.key === 'Tab') {
-			event.preventDefault();
-			reset();
+		switch (event.key) {
+			case 'Tab':
+				event.preventDefault();
+				reset();
+				break;
+
+			case 'Backspace':
+				if (currentWordIndex === 0 && currentInput.length === 0) return;
+
+				if (currentInput.length === 0) {
+					event.preventDefault();
+
+					// const currentWordKey =
+					// 	words[currentWordIndex] + '.' + currentWordIndex;
+					const previousWordKey =
+						words[currentWordIndex - 1] +
+						'.' +
+						(currentWordIndex - 1);
+					const previousWord = typedHistory.current[previousWordKey];
+
+					// delete typedHistory.current[currentWordKey];
+					typedWords.current.incorrect.delete(currentWordIndex - 1);
+
+					setCurrentWordIndex((current) => current - 1);
+					setCurrentLetterIndex(previousWord.length);
+					setCurrentInput(previousWord);
+				}
+				break;
+
+			default:
+				break;
 		}
 	}
 
