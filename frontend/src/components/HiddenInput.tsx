@@ -53,18 +53,23 @@ function HiddenInput({
 
 					// const currentWordKey =
 					// 	words[currentWordIndex] + '.' + currentWordIndex;
+					const previousWordIndex = currentWordIndex - 1;
 					const previousWordKey =
-						words[currentWordIndex - 1] +
-						'.' +
-						(currentWordIndex - 1);
+						words[previousWordIndex] + '.' + previousWordIndex;
 					const previousWord = typedHistory.current[previousWordKey];
 
 					// delete typedHistory.current[currentWordKey];
-					typedWords.current.incorrect.delete(currentWordIndex - 1);
+					typedWords.current.incorrect.delete(previousWordIndex);
 
-					setCurrentWordIndex((current) => current - 1);
-					setCurrentLetterIndex(previousWord.length);
-					setCurrentInput(previousWord);
+					if (event.ctrlKey) {
+						setCurrentWordIndex((current) => current - 1);
+						setCurrentLetterIndex(0);
+						setCurrentInput('');
+					} else {
+						setCurrentWordIndex((current) => current - 1);
+						setCurrentLetterIndex(previousWord.length);
+						setCurrentInput(previousWord);
+					}
 				}
 				break;
 
