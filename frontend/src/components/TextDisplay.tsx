@@ -22,6 +22,8 @@ function TextDisplay() {
 	const typedHistory = useRef<Record<string, string>>({});
 	const inputRef = useRef<HTMLInputElement>(null);
 
+	const isTestCompleted = currentWordIndex === words.length;
+
 	function focusInput() {
 		inputRef.current?.focus();
 	}
@@ -36,6 +38,20 @@ function TextDisplay() {
 		};
 		typedHistory.current = {};
 		focusInput();
+	}
+
+	if (isTestCompleted) {
+		return (
+			<div className='flex flex-col items-center w-full gap-4'>
+				<h1 className='text-3xl text-white'>Test Completed</h1>
+				<button
+					autoFocus
+					onClick={reset}
+					className='w-1/2 py-2 mx-auto text-white transition rounded-md focus:outline-none focus:bg-slate-700 hover:bg-slate-700'>
+					Start Again
+				</button>
+			</div>
+		);
 	}
 
 	return (
