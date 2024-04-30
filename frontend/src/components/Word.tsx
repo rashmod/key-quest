@@ -20,7 +20,7 @@ function Word({
 	return (
 		<span
 			className={clsx({
-				'text-white': wordIndex <= currentWordIndex,
+				'text-white': wordIndex === currentWordIndex,
 				'underline underline-offset-4 decoration-red-500':
 					isWordIncorrect,
 			})}>
