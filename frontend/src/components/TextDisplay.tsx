@@ -3,6 +3,7 @@ import { useRef, useState } from 'react';
 import words from '../data/words';
 import HiddenInput from './HiddenInput';
 import Word from './Word';
+import ResetButton from './ResetButton';
 
 // todo - show caret
 // todo - fix - caret hides when typed words more than given word
@@ -44,12 +45,7 @@ function TextDisplay() {
 		return (
 			<div className='flex flex-col items-center w-full gap-4'>
 				<h1 className='text-3xl text-white'>Test Completed</h1>
-				<button
-					autoFocus
-					onClick={reset}
-					className='w-1/2 py-2 mx-auto text-white transition rounded-md focus:outline-none focus:bg-slate-700 hover:bg-slate-700'>
-					Start Again
-				</button>
+				<ResetButton reset={reset} label='Start Again' autoFocus />
 			</div>
 		);
 	}
@@ -83,11 +79,7 @@ function TextDisplay() {
 				typedHistory={typedHistory}
 				typedWords={typedWords}
 			/>
-			<button
-				onClick={reset}
-				className='w-1/2 py-2 mx-auto text-white transition rounded-md focus:outline-none focus:bg-slate-700 hover:bg-slate-700'>
-				Reset
-			</button>
+			<ResetButton reset={reset} label='Reset' />
 		</>
 	);
 }
