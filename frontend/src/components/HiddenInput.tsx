@@ -28,7 +28,7 @@ function HiddenInput({
 				typedWords.current.incorrect.add(currentWordIndex);
 
 			setCurrentInput('');
-			setCurrentWordIndex((current) => (current + 1) % words.length);
+			setCurrentWordIndex((current) => current + 1);
 			setCurrentLetterIndex(0);
 			return;
 		}
