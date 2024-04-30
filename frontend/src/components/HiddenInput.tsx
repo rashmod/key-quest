@@ -9,6 +9,7 @@ function HiddenInput({
 	typedHistory,
 	typedWords,
 	reset,
+	setInputFocused,
 }: HiddenInputProps) {
 	function onInputChange(event: React.ChangeEvent<HTMLInputElement>) {
 		const value = event.target.value;
@@ -89,6 +90,7 @@ function HiddenInput({
 			value={currentInput}
 			onChange={onInputChange}
 			onKeyDown={onKeyDown}
+			onBlur={() => setInputFocused(false)}
 			autoFocus
 			type='text'
 			autoCapitalize='off'
@@ -114,6 +116,7 @@ type HiddenInputProps = {
 		incorrect: Set<number>;
 	}>;
 	reset: () => void;
+	setInputFocused: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default HiddenInput;

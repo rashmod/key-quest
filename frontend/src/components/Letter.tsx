@@ -8,6 +8,7 @@ function Letter({
 	letter,
 	currentWordIndex,
 	currentLetterIndex,
+	inputFocused,
 }: LetterProps) {
 	const word = words[wordIndex];
 	const wordKey = word + '.' + wordIndex;
@@ -26,6 +27,7 @@ function Letter({
 				'text-red-500': !isCorrect,
 				'text-opacity-40': isLetterExtra,
 				'relative before:bg-white before:h-[1.5em] before:w-[1.5px] before:absolute before:-left-0.5 before:top-0 before:z-50 before:animate-blink':
+					inputFocused &&
 					currentWordIndex === wordIndex &&
 					currentLetterIndex === letterIndex,
 			})}>
@@ -42,6 +44,7 @@ type LetterProps = {
 	letter: string;
 	currentWordIndex: number;
 	currentLetterIndex: number;
+	inputFocused: boolean;
 };
 
 export default Letter;

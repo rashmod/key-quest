@@ -10,6 +10,7 @@ function Word({
 	currentLetterIndex,
 	typedWords,
 	word,
+	inputFocused,
 }: WordProps) {
 	const wordKey = words[wordIndex] + '.' + wordIndex;
 	const typedWord = typedHistory.current[wordKey] ?? '';
@@ -34,6 +35,7 @@ function Word({
 					letter={letter}
 					currentWordIndex={currentWordIndex}
 					currentLetterIndex={currentLetterIndex}
+					inputFocused={inputFocused}
 				/>
 			))}
 		</span>
@@ -51,6 +53,7 @@ type WordProps = {
 		incorrect: Set<number>;
 	}>;
 	word: string;
+	inputFocused: boolean;
 };
 
 export default Word;

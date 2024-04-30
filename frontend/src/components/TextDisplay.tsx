@@ -10,6 +10,8 @@ function TextDisplay() {
 	const [currentWordIndex, setCurrentWordIndex] = useState(0);
 	const [currentLetterIndex, setCurrentLetterIndex] = useState(0);
 
+	const [inputFocused, setInputFocused] = useState(true);
+
 	const typedWords = useRef({
 		// correct: new Set<number>(),
 		incorrect: new Set<number>(),
@@ -21,6 +23,7 @@ function TextDisplay() {
 
 	function focusInput() {
 		inputRef.current?.focus();
+		setInputFocused(true);
 	}
 
 	function reset() {
@@ -59,6 +62,7 @@ function TextDisplay() {
 						wordIndex={wordIndex}
 						typedHistory={typedHistory}
 						typedWords={typedWords}
+						inputFocused={inputFocused}
 					/>
 				))}
 			</div>
@@ -73,6 +77,7 @@ function TextDisplay() {
 				typedHistory={typedHistory}
 				typedWords={typedWords}
 				reset={reset}
+				setInputFocused={setInputFocused}
 			/>
 			<ResetButton reset={reset} label='Reset' />
 		</>
