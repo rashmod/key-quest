@@ -1,12 +1,4 @@
-function ResetButton({
-	reset,
-	label,
-	autoFocus = false,
-}: {
-	reset: () => void;
-	label: string;
-	autoFocus?: boolean;
-}) {
+function ResetButton({ reset, label, autoFocus = false }: ResetButtonProps) {
 	return (
 		<button
 			autoFocus={autoFocus}
@@ -16,5 +8,11 @@ function ResetButton({
 		</button>
 	);
 }
+
+type ResetButtonProps = {
+	reset: () => void;
+	label: string;
+	autoFocus?: boolean;
+};
 
 export default ResetButton;
