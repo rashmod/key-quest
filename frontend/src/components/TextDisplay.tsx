@@ -50,7 +50,7 @@ function TextDisplay() {
 	return (
 		<>
 			<div
-				className='flex gap-x-[1ch] flex-wrap w-1/2 mx-auto font-mono text-xl leading-relaxed tracking-widest text-gray-500'
+				className='flex gap-x-[1ch] flex-wrap w-1/2 mx-auto text-xl leading-relaxed tracking-widest text-gray-500'
 				onClick={focusInput}>
 				{words.map((word, wordIndex) => (
 					<Word
