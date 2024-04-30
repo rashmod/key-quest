@@ -20,9 +20,12 @@ function HiddenInput({
 		console.log(typedHistory.current);
 
 		if (isCurrentWordCompleted) {
-			if (isWordCorrect())
-				typedWords.current.correct.add(currentWordIndex);
-			else typedWords.current.incorrect.add(currentWordIndex);
+			// if (isWordCorrect())
+			// 	typedWords.current.correct.add(currentWordIndex);
+			// else typedWords.current.incorrect.add(currentWordIndex);
+
+			if (!isWordCorrect())
+				typedWords.current.incorrect.add(currentWordIndex);
 
 			setCurrentInput('');
 			setCurrentWordIndex((current) => (current + 1) % words.length);
@@ -65,7 +68,7 @@ type HiddenInputProps = {
 	setCurrentLetterIndex: React.Dispatch<React.SetStateAction<number>>;
 	typedHistory: React.MutableRefObject<Record<string, string>>;
 	typedWords: React.MutableRefObject<{
-		correct: Set<number>;
+		// correct: Set<number>;
 		incorrect: Set<number>;
 	}>;
 };

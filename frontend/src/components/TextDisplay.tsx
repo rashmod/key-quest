@@ -16,7 +16,7 @@ function TextDisplay() {
 	const [currentLetterIndex, setCurrentLetterIndex] = useState(0);
 
 	const typedWords = useRef({
-		correct: new Set<number>(),
+		// correct: new Set<number>(),
 		incorrect: new Set<number>(),
 	});
 	const typedHistory = useRef<Record<string, string>>({});
@@ -31,7 +31,7 @@ function TextDisplay() {
 		setCurrentWordIndex(0);
 		setCurrentLetterIndex(0);
 		typedWords.current = {
-			correct: new Set<number>(),
+			// correct: new Set<number>(),
 			incorrect: new Set<number>(),
 		};
 		typedHistory.current = {};

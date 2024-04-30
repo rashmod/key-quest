@@ -9,15 +9,21 @@ function Letter({
 	currentWordIndex,
 	currentLetterIndex,
 }: LetterProps) {
-	const wordKey = words[wordIndex] + '.' + wordIndex;
-	const typedWord = typedHistory.current[wordKey];
+	const word = words[wordIndex];
+	const wordKey = word + '.' + wordIndex;
+	const typedWord = typedHistory.current[wordKey] as string | undefined;
 	const typedLetter = typedWord ? typedWord[letterIndex] : undefined;
-	const isTypedLetterIncorrect = typedLetter && typedLetter !== letter;
+	const isTypedLetterIncorrect = Boolean(
+		typedLetter && typedLetter !== letter
+	);
+	const isLetterExtra = letterIndex >= word.length;
+	const isCorrect = !(isTypedLetterIncorrect || isLetterExtra);
 
 	return (
 		<span
 			className={clsx({
-				'text-red-500': isTypedLetterIncorrect,
+				'text-red-500': !isCorrect,
+				'text-opacity-40': isLetterExtra,
 				'before:bg-white before:h-[1.5em] before:w-[1.5px] before:absolute before:-left-0.5 before:top-0 before:z-50 relative':
 					currentWordIndex === wordIndex &&
 					currentLetterIndex === letterIndex,
