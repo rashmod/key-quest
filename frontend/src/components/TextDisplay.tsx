@@ -1,9 +1,12 @@
 import { useRef, useState } from 'react';
 
 import words from '../data/words';
+
 import HiddenInput from './HiddenInput';
 import Word from './Word';
 import ResetButton from './ResetButton';
+
+import useTimer from '../hooks/useTimer';
 
 function TextDisplay() {
 	const [currentInput, setCurrentInput] = useState('');
@@ -11,6 +14,11 @@ function TextDisplay() {
 	const [currentLetterIndex, setCurrentLetterIndex] = useState(0);
 
 	const [inputFocused, setInputFocused] = useState(true);
+
+	const { resetTimer, timeLeft, startTestIfNeeded } = useTimer({
+		currentWordIndex,
+		currentLetterIndex,
+	});
 
 	const typedWords = useRef({
 		// correct: new Set<number>(),
@@ -36,6 +44,7 @@ function TextDisplay() {
 		};
 		typedHistory.current = {};
 		focusInput();
+		resetTimer();
 	}
 
 	if (isTestCompleted) {
@@ -49,6 +58,7 @@ function TextDisplay() {
 
 	return (
 		<>
+			<div className='w-1/2 mx-auto text-white'>Timer: {timeLeft}</div>
 			<div
 				className='flex gap-x-[1ch] flex-wrap w-1/2 mx-auto text-xl leading-relaxed tracking-widest text-gray-500'
 				onClick={focusInput}>
@@ -78,6 +88,7 @@ function TextDisplay() {
 				typedWords={typedWords}
 				reset={reset}
 				setInputFocused={setInputFocused}
+				startTestIfNeeded={startTestIfNeeded}
 			/>
 			<ResetButton reset={reset} label='Reset' />
 		</>

@@ -10,8 +10,11 @@ function HiddenInput({
 	typedWords,
 	reset,
 	setInputFocused,
+	startTestIfNeeded,
 }: HiddenInputProps) {
 	function onInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+		startTestIfNeeded();
+
 		const value = event.target.value;
 		const isCurrentWordCompleted = value.match(/\s/);
 
@@ -117,6 +120,7 @@ type HiddenInputProps = {
 	}>;
 	reset: () => void;
 	setInputFocused: React.Dispatch<React.SetStateAction<boolean>>;
+	startTestIfNeeded: () => void;
 };
 
 export default HiddenInput;
