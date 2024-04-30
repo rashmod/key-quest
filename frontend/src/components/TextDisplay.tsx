@@ -5,7 +5,6 @@ import HiddenInput from './HiddenInput';
 import Word from './Word';
 import ResetButton from './ResetButton';
 
-// todo - show caret
 // todo - fix - caret hides when typed words more than given word
 // todo - show result page
 // todo - show timer
@@ -78,6 +77,7 @@ function TextDisplay() {
 				setCurrentLetterIndex={setCurrentLetterIndex}
 				typedHistory={typedHistory}
 				typedWords={typedWords}
+				reset={reset}
 			/>
 			<ResetButton reset={reset} label='Reset' />
 		</>

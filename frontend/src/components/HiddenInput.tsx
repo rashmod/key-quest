@@ -8,6 +8,7 @@ function HiddenInput({
 	setCurrentLetterIndex,
 	typedHistory,
 	typedWords,
+	reset,
 }: HiddenInputProps) {
 	function onInputChange(event: React.ChangeEvent<HTMLInputElement>) {
 		const value = event.target.value;
@@ -37,6 +38,13 @@ function HiddenInput({
 		setCurrentLetterIndex(value.length);
 	}
 
+	function onKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
+		if (event.key === 'Tab') {
+			event.preventDefault();
+			reset();
+		}
+	}
+
 	function isWordCorrect() {
 		return words[currentWordIndex] === currentInput;
 	}
@@ -46,7 +54,7 @@ function HiddenInput({
 			ref={inputRef}
 			value={currentInput}
 			onChange={onInputChange}
-			// onKeyDown={onKeyDown}
+			onKeyDown={onKeyDown}
 			autoFocus
 			type='text'
 			autoCapitalize='off'
@@ -71,6 +79,7 @@ type HiddenInputProps = {
 		// correct: Set<number>;
 		incorrect: Set<number>;
 	}>;
+	reset: () => void;
 };
 
 export default HiddenInput;
