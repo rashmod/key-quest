@@ -27,7 +27,7 @@ function TextDisplay() {
 	const typedHistory = useRef<Record<string, string>>({});
 	const inputRef = useRef<HTMLInputElement>(null);
 
-	const isTestCompleted = currentWordIndex === words.length;
+	const isTestCompleted = currentWordIndex === words.length || timeLeft <= 0;
 
 	function focusInput() {
 		inputRef.current?.focus();
