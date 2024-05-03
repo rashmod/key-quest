@@ -24,7 +24,7 @@ function useTimer({
 			MAX_TIME - elapsedTime ? MAX_TIME - elapsedTime : 0;
 
 		if (currentTime - lastUpdatedTime.current >= INTERVAL_MS) {
-			if (lastUpdatedTime.current === 0) {
+			if (elapsedTime > INTERVAL_MS / 1000) {
 				calculateWPM('gross');
 				calculateWPM('net');
 			}
