@@ -94,6 +94,7 @@ function HiddenInput({
 			onChange={onInputChange}
 			onKeyDown={onKeyDown}
 			onBlur={() => setInputFocused(false)}
+			onFocus={() => setInputFocused(true)}
 			autoFocus
 			type='text'
 			autoCapitalize='off'
