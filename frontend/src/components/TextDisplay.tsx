@@ -7,6 +7,7 @@ import Word from './Word';
 import ResetButton from './ResetButton';
 
 import useTimer from '../hooks/useTimer';
+import useTest from '../hooks/useTest';
 
 function TextDisplay() {
 	const [currentInput, setCurrentInput] = useState('');
@@ -15,17 +16,32 @@ function TextDisplay() {
 
 	const [inputFocused, setInputFocused] = useState(true);
 
-	const { resetTimer, timeLeft, startTestIfNeeded } = useTimer({
-		currentWordIndex,
-		currentLetterIndex,
-	});
-
 	const typedWords = useRef({
 		// correct: new Set<number>(),
 		incorrect: new Set<number>(),
 	});
 	const typedHistory = useRef<Record<string, string>>({});
+
 	const inputRef = useRef<HTMLInputElement>(null);
+	const startTime = useRef<number>();
+
+	const {
+		grossWPM,
+		netWPM,
+		calculateWPM,
+		reset: resetTest,
+	} = useTest({
+		startTime: startTime.current,
+		typedWords,
+		typedHistory,
+	});
+
+	const { resetTimer, timeLeft, startTestIfNeeded } = useTimer({
+		currentWordIndex,
+		currentLetterIndex,
+		startTime,
+		calculateWPM,
+	});
 
 	const isTestCompleted = currentWordIndex === words.length || timeLeft <= 0;
 
@@ -45,6 +61,7 @@ function TextDisplay() {
 		typedHistory.current = {};
 		focusInput();
 		resetTimer();
+		resetTest();
 	}
 
 	if (isTestCompleted) {
@@ -58,7 +75,12 @@ function TextDisplay() {
 
 	return (
 		<>
-			<div className='w-1/2 mx-auto text-white'>Timer: {timeLeft}</div>
+			<div className='w-1/2 mx-auto text-white'>
+				<div>Timer: {timeLeft.toFixed(2)}</div>
+				<div>
+					{grossWPM.toFixed(1)} WPM -- {netWPM.toFixed(1)} Net WPM
+				</div>
+			</div>
 			<div
 				className='flex gap-x-[1ch] flex-wrap w-1/2 mx-auto text-xl leading-relaxed tracking-widest text-gray-500'
 				onClick={focusInput}>

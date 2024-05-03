@@ -22,7 +22,7 @@ function HiddenInput({
 		typedHistory.current[wordKey] = value.trim();
 
 		// console.log(value.replace(/\s/g, '_'), value.length);
-		console.log(typedHistory.current);
+		// console.log(typedHistory.current);
 
 		if (isCurrentWordCompleted) {
 			// if (isWordCorrect())
