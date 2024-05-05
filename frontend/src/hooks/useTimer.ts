@@ -20,10 +20,12 @@ function useTimer({
 
 		const currentTime = Date.now();
 		const elapsedTime = (currentTime - (startTime.current ?? 0)) / 1000;
-		const remainingTime =
-			MAX_TIME - elapsedTime ? MAX_TIME - elapsedTime : 0;
+		const remainingTime = MAX_TIME - elapsedTime;
 
-		if (currentTime - lastUpdatedTime.current >= INTERVAL_MS) {
+		if (
+			currentTime - lastUpdatedTime.current >= INTERVAL_MS ||
+			Math.round(remainingTime * 10) === 0
+		) {
 			if (elapsedTime > INTERVAL_MS / 1000) {
 				calculateWPM('gross');
 				calculateWPM('net');
