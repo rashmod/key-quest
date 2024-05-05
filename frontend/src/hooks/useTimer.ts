@@ -40,6 +40,8 @@ function useTimer({
 		} else {
 			cancelAnimationFrame(animationFrameId.current);
 		}
+
+		return () => cancelAnimationFrame(animationFrameId.current);
 	}, [isTestRunning, updateTimeLeft]);
 
 	function resetTimer() {
