@@ -74,7 +74,7 @@ function TextDisplay() {
 	}
 
 	return (
-		<>
+		<div className='relative grid items-center w-1/2 mx-auto'>
 			<div className='w-1/2 mx-auto text-white'>
 				<div>Timer: {timeLeft.toFixed(2)}</div>
 				<div>
@@ -105,7 +105,7 @@ function TextDisplay() {
 				startTestIfNeeded={startTestIfNeeded}
 			/>
 			<ResetButton reset={reset} label='Reset' />
-		</>
+		</div>
 	);
 }
 

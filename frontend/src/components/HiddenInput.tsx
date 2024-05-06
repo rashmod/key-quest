@@ -101,7 +101,7 @@ function HiddenInput({
 			autoComplete='off'
 			autoCorrect='off'
 			spellCheck='false'
-			className='w-1/2 mx-auto border-2 border-blue-500 rounded-md focus:outline-none'
+			className='absolute top-0 left-0 opacity-0'
 		/>
 	);
 }
