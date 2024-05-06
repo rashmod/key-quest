@@ -3,6 +3,7 @@ import { useCallback, useState } from 'react';
 function useTest({ startTime, typedWords, typedHistory }: useTestInput) {
 	const [grossWPM, setGrossWPM] = useState(0);
 	const [netWPM, setNetWPM] = useState(0);
+	const [accuracy, setAccuracy] = useState(0);
 
 	const countCharacters = useCallback(() => {
 		let count = 0;
@@ -17,8 +18,8 @@ function useTest({ startTime, typedWords, typedHistory }: useTestInput) {
 		return typedWords.current.incorrect.size;
 	}, [typedWords]);
 
-	const calculateWPM = useCallback(
-		(wpmType: 'gross' | 'net') => {
+	const calculateStats = useCallback(
+		(input: calculateStatsInput) => {
 			if (!startTime) return;
 
 			const elapsedTime = Date.now() - startTime;
@@ -30,12 +31,20 @@ function useTest({ startTime, typedWords, typedHistory }: useTestInput) {
 
 			const normalizedWordCount = totalCharacters / 5;
 
-			if (wpmType === 'gross') {
-				setGrossWPM(normalizedWordCount / timeInMinutes);
-			} else {
-				const incorrectWordCount = countIncorrectWords();
-				const netWordCount = normalizedWordCount - incorrectWordCount;
-				setNetWPM(netWordCount / timeInMinutes);
+			const incorrectWordCount = countIncorrectWords();
+			const netWordCount = normalizedWordCount - incorrectWordCount;
+
+			switch (input.statType) {
+				case 'wpm':
+					if (input.wpmType === 'gross') {
+						setGrossWPM(normalizedWordCount / timeInMinutes);
+					} else {
+						setNetWPM(netWordCount / timeInMinutes);
+					}
+					break;
+				case 'accuracy':
+					setAccuracy((netWordCount / normalizedWordCount) * 100);
+					break;
 			}
 		},
 		[startTime, countCharacters, countIncorrectWords]
@@ -44,9 +53,10 @@ function useTest({ startTime, typedWords, typedHistory }: useTestInput) {
 	function reset() {
 		setGrossWPM(0);
 		setNetWPM(0);
+		setAccuracy(0);
 	}
 
-	return { grossWPM, netWPM, calculateWPM, reset };
+	return { grossWPM, netWPM, accuracy, calculateStats, reset };
 }
 
 type useTestInput = {
@@ -56,5 +66,14 @@ type useTestInput = {
 	}>;
 	typedHistory: React.MutableRefObject<Record<string, string>>;
 };
+
+export type calculateStatsInput =
+	| {
+			statType: 'wpm';
+			wpmType: 'gross' | 'net';
+	  }
+	| {
+			statType: 'accuracy';
+	  };
 
 export default useTest;

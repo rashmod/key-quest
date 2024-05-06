@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { calculateStatsInput } from './useTest';
 
 function useTimer({
 	currentWordIndex,
 	currentLetterIndex,
 	startTime,
-	calculateWPM,
+	calculateStats,
 }: useTimerInput) {
-	const MAX_TIME = 15;
+	const MAX_TIME = 5;
 	const INTERVAL_MS = 500;
 
 	const [timeLeft, setTimeLeft] = useState(MAX_TIME);
@@ -27,14 +28,15 @@ function useTimer({
 			Math.round(remainingTime * 10) === 0
 		) {
 			if (elapsedTime > INTERVAL_MS / 1000) {
-				calculateWPM('gross');
-				calculateWPM('net');
+				calculateStats({ statType: 'accuracy' });
+				calculateStats({ statType: 'wpm', wpmType: 'gross' });
+				calculateStats({ statType: 'wpm', wpmType: 'net' });
 			}
 			setTimeLeft(remainingTime);
 			lastUpdatedTime.current = currentTime;
 		}
 		if (remainingTime <= 0) setIsTestRunning(false);
-	}, [startTime, calculateWPM]);
+	}, [startTime, calculateStats]);
 
 	useEffect(() => {
 		if (isTestRunning) {
@@ -71,7 +73,7 @@ type useTimerInput = {
 	currentWordIndex: number;
 	currentLetterIndex: number;
 	startTime: React.MutableRefObject<number | undefined>;
-	calculateWPM: (wpmType: 'gross' | 'net') => void;
+	calculateStats: (input: calculateStatsInput) => void;
 };
 
 export default useTimer;

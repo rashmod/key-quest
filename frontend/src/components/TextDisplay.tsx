@@ -29,7 +29,8 @@ function TextDisplay() {
 	const {
 		grossWPM,
 		netWPM,
-		calculateWPM,
+		accuracy,
+		calculateStats,
 		reset: resetTest,
 	} = useTest({
 		startTime: startTime.current,
@@ -41,7 +42,7 @@ function TextDisplay() {
 		currentWordIndex,
 		currentLetterIndex,
 		startTime,
-		calculateWPM,
+		calculateStats,
 	});
 
 	const isTestCompleted = currentWordIndex === words.length || timeLeft <= 0;
@@ -75,7 +76,11 @@ function TextDisplay() {
 	}
 
 	return (
-		<Stats timeLeft={timeLeft} grossWPM={grossWPM} netWPM={netWPM}>
+		<Stats
+			timeLeft={timeLeft}
+			grossWPM={grossWPM}
+			netWPM={netWPM}
+			accuracy={accuracy}>
 			<WordsContainer
 				words={words}
 				currentWordIndex={currentWordIndex}
