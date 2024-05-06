@@ -23,13 +23,7 @@ function TextDisplay() {
 		setInputFocused,
 	} = useTestContext();
 
-	const {
-		grossWPM,
-		netWPM,
-		accuracy,
-		calculateStats,
-		reset: resetTest,
-	} = useTest({
+	const { grossWPM, netWPM, accuracy, calculateStats, resetTest } = useTest({
 		startTime: startTime.current,
 		typedWords,
 		typedHistory,

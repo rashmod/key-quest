@@ -53,13 +53,13 @@ function useTest({ startTime, typedWords, typedHistory }: useTestInput) {
 		[startTime, countCharacters, countIncorrectWords]
 	);
 
-	function reset() {
+	function resetTest() {
 		setGrossWPM(0);
 		setNetWPM(0);
 		setAccuracy(0);
 	}
 
-	return { grossWPM, netWPM, accuracy, calculateStats, reset };
+	return { grossWPM, netWPM, accuracy, calculateStats, resetTest };
 }
 
 type useTestInput = {
