@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import useTestContext from '../context/TestContext/useTestContext';
+import generateWordKey from '../utilities/generateWordKey';
 
 function Letter({ wordIndex, letterIndex, letter }: LetterProps) {
 	const {
@@ -11,7 +12,7 @@ function Letter({ wordIndex, letterIndex, letter }: LetterProps) {
 	} = useTestContext();
 
 	const word = words[wordIndex];
-	const wordKey = word + '.' + wordIndex;
+	const wordKey = generateWordKey(word, wordIndex);
 	const typedWord = typedHistory.current[wordKey] as string | undefined;
 	const typedLetter = typedWord ? typedWord[letterIndex] : undefined;
 	const isLetterTyped = !!typedLetter;

@@ -2,12 +2,13 @@ import clsx from 'clsx';
 
 import Letter from './Letter';
 import useTestContext from '../context/TestContext/useTestContext';
+import generateWordKey from '../utilities/generateWordKey';
 
 function Word({ wordIndex, word, currentWordRef, previousWordRef }: WordProps) {
 	const { currentWordIndex, typedWords, typedHistory, words } =
 		useTestContext();
 
-	const wordKey = words[wordIndex] + '.' + wordIndex;
+	const wordKey = generateWordKey(words[wordIndex], wordIndex);
 	const typedWord = typedHistory.current[wordKey] ?? '';
 	const extraLetters = typedWord.slice(word.length);
 	const displayedWord = word + extraLetters + ' ';

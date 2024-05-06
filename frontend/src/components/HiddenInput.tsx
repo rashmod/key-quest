@@ -1,4 +1,5 @@
 import useTestContext from '../context/TestContext/useTestContext';
+import generateWordKey from '../utilities/generateWordKey';
 
 function HiddenInput() {
 	const {
@@ -22,7 +23,10 @@ function HiddenInput() {
 		const value = event.target.value;
 		const isCurrentWordCompleted = value.match(/\s/);
 
-		const wordKey = words[currentWordIndex] + '.' + currentWordIndex;
+		const wordKey = generateWordKey(
+			words[currentWordIndex],
+			currentWordIndex
+		);
 		typedHistory.current[wordKey] = value.trim();
 
 		// console.log(value.replace(/\s/g, '_'), value.length);
@@ -59,11 +63,15 @@ function HiddenInput() {
 				if (currentInput.length === 0) {
 					event.preventDefault();
 
-					const currentWordKey =
-						words[currentWordIndex] + '.' + currentWordIndex;
+					const currentWordKey = generateWordKey(
+						words[currentWordIndex],
+						currentWordIndex
+					);
 					const previousWordIndex = currentWordIndex - 1;
-					const previousWordKey =
-						words[previousWordIndex] + '.' + previousWordIndex;
+					const previousWordKey = generateWordKey(
+						words[previousWordIndex],
+						previousWordIndex
+					);
 					const previousWord = typedHistory.current[previousWordKey];
 
 					delete typedHistory.current[currentWordKey];
