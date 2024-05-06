@@ -26,7 +26,7 @@ function useTest({ startTime, typedWords, typedHistory }: useTestInput) {
 			const timeInMinutes = elapsedTime / (1000 * 60);
 
 			const charactersTyped = countCharacters();
-			const SpacesCount = charactersTyped - 1;
+			const SpacesCount = Math.max(charactersTyped - 1, 0);
 			const totalCharacters = charactersTyped + SpacesCount;
 
 			const normalizedWordCount = totalCharacters / 5;
