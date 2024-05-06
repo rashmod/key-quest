@@ -11,7 +11,7 @@ function WordsContainer({
 }: WordsContainerProps) {
 	return (
 		<div
-			className='flex gap-x-[1ch] flex-wrap text-xl leading-relaxed tracking-widest text-gray-500'
+			className='flex gap-x-[1ch] flex-wrap select-none text-xl leading-relaxed tracking-widest text-gray-500'
 			onClick={focusInput}>
 			{words.map((word, wordIndex) => (
 				<Word
