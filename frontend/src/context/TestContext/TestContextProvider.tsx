@@ -42,7 +42,8 @@ function TestContextProvider({ children, words }: TestContextProviderProps) {
 	const isTestCompleted = currentWordIndex === words.length || timeLeft <= 0;
 
 	function focusInput() {
-		inputRef.current?.focus();
+		if (!inputRef.current) return;
+		inputRef.current.focus();
 		setInputFocused(true);
 	}
 
