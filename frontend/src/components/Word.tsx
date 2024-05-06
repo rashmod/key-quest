@@ -11,6 +11,8 @@ function Word({
 	typedWords,
 	word,
 	inputFocused,
+	currentWordRef,
+	previousWordRef,
 }: WordProps) {
 	const wordKey = words[wordIndex] + '.' + wordIndex;
 	const typedWord = typedHistory.current[wordKey] ?? '';
@@ -18,13 +20,23 @@ function Word({
 	const displayedWord = word + extraLetters + ' ';
 	const isWordIncorrect = typedWords.current.incorrect.has(wordIndex);
 
+	const isCurrentWord = wordIndex === currentWordIndex;
+	const isPreviousWord = wordIndex === currentWordIndex - 1;
+
 	return (
 		<span
 			className={clsx({
 				'text-white': wordIndex === currentWordIndex,
 				'underline underline-offset-4 decoration-red-500':
 					isWordIncorrect,
-			})}>
+			})}
+			ref={
+				isCurrentWord
+					? currentWordRef
+					: isPreviousWord
+					? previousWordRef
+					: null
+			}>
 			{displayedWord.split('').map((letter, letterIndex) => (
 				<Letter
 					key={`${wordIndex}-${letterIndex}`}
@@ -54,6 +66,8 @@ type WordProps = {
 	}>;
 	word: string;
 	inputFocused: boolean;
+	currentWordRef: React.RefObject<HTMLSpanElement>;
+	previousWordRef: React.RefObject<HTMLSpanElement>;
 };
 
 export default Word;
