@@ -6,6 +6,8 @@ function useTimer({
 	currentLetterIndex,
 	startTime,
 	calculateStats,
+	countOfTypedWords,
+	totalWords,
 }: useTimerInput) {
 	const MAX_TIME = 5;
 	const INTERVAL_MS = 500;
@@ -35,8 +37,10 @@ function useTimer({
 			setTimeLeft(remainingTime);
 			lastUpdatedTime.current = currentTime;
 		}
-		if (remainingTime <= 0) setIsTestRunning(false);
-	}, [startTime, calculateStats]);
+
+		if (remainingTime <= 0 || countOfTypedWords === totalWords)
+			setIsTestRunning(false);
+	}, [startTime, calculateStats, countOfTypedWords, totalWords]);
 
 	useEffect(() => {
 		if (isTestRunning) {
@@ -74,6 +78,8 @@ type useTimerInput = {
 	currentLetterIndex: number;
 	startTime: React.MutableRefObject<number | undefined>;
 	calculateStats: (input: calculateStatsInput) => void;
+	countOfTypedWords: number;
+	totalWords: number;
 };
 
 export default useTimer;

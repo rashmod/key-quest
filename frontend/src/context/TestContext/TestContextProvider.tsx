@@ -21,6 +21,9 @@ function TestContextProvider({ children, words }: TestContextProviderProps) {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const startTime = useRef<number>();
 
+	const countOfTypedWords = Object.keys(typedHistory.current).length;
+	const totalWords = words.length;
+
 	const { grossWPM, netWPM, accuracy, calculateStats, resetTest } = useTest({
 		startTime: startTime.current,
 		typedWords,
@@ -33,6 +36,8 @@ function TestContextProvider({ children, words }: TestContextProviderProps) {
 			currentLetterIndex,
 			startTime,
 			calculateStats,
+			countOfTypedWords,
+			totalWords,
 		}
 	);
 
