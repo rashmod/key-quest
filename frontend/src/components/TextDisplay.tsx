@@ -3,8 +3,8 @@ import { useRef, useState } from 'react';
 import words from '../data/words';
 
 import HiddenInput from './HiddenInput';
-import Word from './Word';
 import ResetButton from './ResetButton';
+import WordsContainer from './WordsContainer';
 
 import useTimer from '../hooks/useTimer';
 import useTest from '../hooks/useTest';
@@ -81,23 +81,15 @@ function TextDisplay() {
 					{grossWPM.toFixed(1)} WPM -- {netWPM.toFixed(1)} Net WPM
 				</div>
 			</div>
-			<div
-				className='flex gap-x-[1ch] flex-wrap w-1/2 mx-auto text-xl leading-relaxed tracking-widest text-gray-500'
-				onClick={focusInput}>
-				{words.map((word, wordIndex) => (
-					<Word
-						key={wordIndex}
-						words={words}
-						currentWordIndex={currentWordIndex}
-						currentLetterIndex={currentLetterIndex}
-						word={word}
-						wordIndex={wordIndex}
-						typedHistory={typedHistory}
-						typedWords={typedWords}
-						inputFocused={inputFocused}
-					/>
-				))}
-			</div>
+			<WordsContainer
+				words={words}
+				currentWordIndex={currentWordIndex}
+				currentLetterIndex={currentLetterIndex}
+				focusInput={focusInput}
+				inputFocused={inputFocused}
+				typedHistory={typedHistory}
+				typedWords={typedWords}
+			/>
 			<HiddenInput
 				words={words}
 				inputRef={inputRef}
