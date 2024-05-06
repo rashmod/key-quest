@@ -5,6 +5,7 @@ import words from '../data/words';
 import HiddenInput from './HiddenInput';
 import ResetButton from './ResetButton';
 import WordsContainer from './WordsContainer';
+import Stats from './Stats';
 
 import useTimer from '../hooks/useTimer';
 import useTest from '../hooks/useTest';
@@ -74,13 +75,7 @@ function TextDisplay() {
 	}
 
 	return (
-		<div className='relative grid items-center w-1/2 mx-auto'>
-			<div className='w-1/2 mx-auto text-white'>
-				<div>Timer: {timeLeft.toFixed(2)}</div>
-				<div>
-					{grossWPM.toFixed(1)} WPM -- {netWPM.toFixed(1)} Net WPM
-				</div>
-			</div>
+		<Stats timeLeft={timeLeft} grossWPM={grossWPM} netWPM={netWPM}>
 			<WordsContainer
 				words={words}
 				currentWordIndex={currentWordIndex}
@@ -104,8 +99,8 @@ function TextDisplay() {
 				setInputFocused={setInputFocused}
 				startTestIfNeeded={startTestIfNeeded}
 			/>
-			<ResetButton reset={reset} label='Reset' />
-		</div>
+			{/* <ResetButton reset={reset} label='Reset' /> */}
+		</Stats>
 	);
 }
 
