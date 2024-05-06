@@ -1,15 +1,11 @@
 import { useEffect, useRef } from 'react';
-import Word from './Word';
 
-function WordsContainer({
-	words,
-	currentWordIndex,
-	currentLetterIndex,
-	typedHistory,
-	typedWords,
-	inputFocused,
-	focusInput,
-}: WordsContainerProps) {
+import Word from './Word';
+import useTestContext from '../context/TestContext/useTestContext';
+
+function WordsContainer({ words, focusInput }: WordsContainerProps) {
+	const { currentWordIndex } = useTestContext();
+
 	const previousWordRef = useRef<HTMLSpanElement>(null);
 	const currentWordRef = useRef<HTMLSpanElement>(null);
 
@@ -34,13 +30,8 @@ function WordsContainer({
 					<Word
 						key={wordIndex}
 						words={words}
-						currentWordIndex={currentWordIndex}
-						currentLetterIndex={currentLetterIndex}
 						word={word}
 						wordIndex={wordIndex}
-						typedHistory={typedHistory}
-						typedWords={typedWords}
-						inputFocused={inputFocused}
 						currentWordRef={currentWordRef}
 						previousWordRef={previousWordRef}
 					/>
@@ -52,11 +43,6 @@ function WordsContainer({
 
 type WordsContainerProps = {
 	words: readonly string[];
-	currentWordIndex: number;
-	currentLetterIndex: number;
-	typedHistory: React.MutableRefObject<Record<string, string>>;
-	typedWords: React.MutableRefObject<{ incorrect: Set<number> }>;
-	inputFocused: boolean;
 	focusInput: () => void;
 };
 

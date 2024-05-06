@@ -1,17 +1,18 @@
-function HiddenInput({
-	words,
-	inputRef,
-	currentInput,
-	setCurrentInput,
-	currentWordIndex,
-	setCurrentWordIndex,
-	setCurrentLetterIndex,
-	typedHistory,
-	typedWords,
-	reset,
-	setInputFocused,
-	startTestIfNeeded,
-}: HiddenInputProps) {
+import useTestContext from '../context/TestContext/useTestContext';
+
+function HiddenInput({ words, reset, startTestIfNeeded }: HiddenInputProps) {
+	const {
+		currentInput,
+		setCurrentInput,
+		currentWordIndex,
+		setCurrentWordIndex,
+		setCurrentLetterIndex,
+		typedWords,
+		typedHistory,
+		inputRef,
+		setInputFocused,
+	} = useTestContext();
+
 	function onInputChange(event: React.ChangeEvent<HTMLInputElement>) {
 		startTestIfNeeded();
 
@@ -108,19 +109,7 @@ function HiddenInput({
 
 type HiddenInputProps = {
 	words: readonly string[];
-	inputRef: React.RefObject<HTMLInputElement>;
-	currentInput: string;
-	setCurrentInput: React.Dispatch<React.SetStateAction<string>>;
-	currentWordIndex: number;
-	setCurrentWordIndex: React.Dispatch<React.SetStateAction<number>>;
-	setCurrentLetterIndex: React.Dispatch<React.SetStateAction<number>>;
-	typedHistory: React.MutableRefObject<Record<string, string>>;
-	typedWords: React.MutableRefObject<{
-		// correct: Set<number>;
-		incorrect: Set<number>;
-	}>;
 	reset: () => void;
-	setInputFocused: React.Dispatch<React.SetStateAction<boolean>>;
 	startTestIfNeeded: () => void;
 };
 

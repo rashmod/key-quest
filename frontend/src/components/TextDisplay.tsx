@@ -1,5 +1,3 @@
-import { useRef, useState } from 'react';
-
 import words from '../data/words';
 
 import HiddenInput from './HiddenInput';
@@ -9,22 +7,21 @@ import Stats from './Stats';
 
 import useTimer from '../hooks/useTimer';
 import useTest from '../hooks/useTest';
+import useTestContext from '../context/TestContext/useTestContext';
 
 function TextDisplay() {
-	const [currentInput, setCurrentInput] = useState('');
-	const [currentWordIndex, setCurrentWordIndex] = useState(0);
-	const [currentLetterIndex, setCurrentLetterIndex] = useState(0);
-
-	const [inputFocused, setInputFocused] = useState(true);
-
-	const typedWords = useRef({
-		// correct: new Set<number>(),
-		incorrect: new Set<number>(),
-	});
-	const typedHistory = useRef<Record<string, string>>({});
-
-	const inputRef = useRef<HTMLInputElement>(null);
-	const startTime = useRef<number>();
+	const {
+		setCurrentInput,
+		currentWordIndex,
+		setCurrentWordIndex,
+		currentLetterIndex,
+		setCurrentLetterIndex,
+		typedWords,
+		typedHistory,
+		inputRef,
+		startTime,
+		setInputFocused,
+	} = useTestContext();
 
 	const {
 		grossWPM,
@@ -96,27 +93,10 @@ function TextDisplay() {
 			grossWPM={grossWPM}
 			netWPM={netWPM}
 			accuracy={accuracy}>
-			<WordsContainer
-				words={words}
-				currentWordIndex={currentWordIndex}
-				currentLetterIndex={currentLetterIndex}
-				focusInput={focusInput}
-				inputFocused={inputFocused}
-				typedHistory={typedHistory}
-				typedWords={typedWords}
-			/>
+			<WordsContainer words={words} focusInput={focusInput} />
 			<HiddenInput
 				words={words}
-				inputRef={inputRef}
-				currentInput={currentInput}
-				setCurrentInput={setCurrentInput}
-				currentWordIndex={currentWordIndex}
-				setCurrentWordIndex={setCurrentWordIndex}
-				setCurrentLetterIndex={setCurrentLetterIndex}
-				typedHistory={typedHistory}
-				typedWords={typedWords}
 				reset={reset}
-				setInputFocused={setInputFocused}
 				startTestIfNeeded={startTestIfNeeded}
 			/>
 			{/* <ResetButton reset={reset} label='Reset' /> */}

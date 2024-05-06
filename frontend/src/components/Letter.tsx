@@ -1,15 +1,10 @@
 import clsx from 'clsx';
+import useTestContext from '../context/TestContext/useTestContext';
 
-function Letter({
-	typedHistory,
-	words,
-	wordIndex,
-	letterIndex,
-	letter,
-	currentWordIndex,
-	currentLetterIndex,
-	inputFocused,
-}: LetterProps) {
+function Letter({ words, wordIndex, letterIndex, letter }: LetterProps) {
+	const { currentWordIndex, currentLetterIndex, typedHistory, inputFocused } =
+		useTestContext();
+
 	const word = words[wordIndex];
 	const wordKey = word + '.' + wordIndex;
 	const typedWord = typedHistory.current[wordKey] as string | undefined;
@@ -41,13 +36,9 @@ function Letter({
 
 type LetterProps = {
 	words: readonly string[];
-	typedHistory: React.MutableRefObject<Record<string, string>>;
 	wordIndex: number;
 	letterIndex: number;
 	letter: string;
-	currentWordIndex: number;
-	currentLetterIndex: number;
-	inputFocused: boolean;
 };
 
 export default Letter;

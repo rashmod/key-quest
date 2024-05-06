@@ -1,19 +1,17 @@
 import clsx from 'clsx';
 
 import Letter from './Letter';
+import useTestContext from '../context/TestContext/useTestContext';
 
 function Word({
 	words,
 	wordIndex,
-	typedHistory,
-	currentWordIndex,
-	currentLetterIndex,
-	typedWords,
 	word,
-	inputFocused,
 	currentWordRef,
 	previousWordRef,
 }: WordProps) {
+	const { currentWordIndex, typedWords, typedHistory } = useTestContext();
+
 	const wordKey = words[wordIndex] + '.' + wordIndex;
 	const typedWord = typedHistory.current[wordKey] ?? '';
 	const extraLetters = typedWord.slice(word.length);
@@ -41,13 +39,9 @@ function Word({
 				<Letter
 					key={`${wordIndex}-${letterIndex}`}
 					words={words}
-					typedHistory={typedHistory}
 					wordIndex={wordIndex}
 					letterIndex={letterIndex}
 					letter={letter}
-					currentWordIndex={currentWordIndex}
-					currentLetterIndex={currentLetterIndex}
-					inputFocused={inputFocused}
 				/>
 			))}
 		</span>
@@ -56,16 +50,8 @@ function Word({
 
 type WordProps = {
 	words: readonly string[];
-	typedHistory: React.MutableRefObject<Record<string, string>>;
 	wordIndex: number;
-	currentWordIndex: number;
-	currentLetterIndex: number;
-	typedWords: React.MutableRefObject<{
-		// correct: Set<number>;
-		incorrect: Set<number>;
-	}>;
 	word: string;
-	inputFocused: boolean;
 	currentWordRef: React.RefObject<HTMLSpanElement>;
 	previousWordRef: React.RefObject<HTMLSpanElement>;
 };
