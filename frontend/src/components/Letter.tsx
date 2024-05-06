@@ -1,9 +1,14 @@
 import clsx from 'clsx';
 import useTestContext from '../context/TestContext/useTestContext';
 
-function Letter({ words, wordIndex, letterIndex, letter }: LetterProps) {
-	const { currentWordIndex, currentLetterIndex, typedHistory, inputFocused } =
-		useTestContext();
+function Letter({ wordIndex, letterIndex, letter }: LetterProps) {
+	const {
+		currentWordIndex,
+		currentLetterIndex,
+		typedHistory,
+		inputFocused,
+		words,
+	} = useTestContext();
 
 	const word = words[wordIndex];
 	const wordKey = word + '.' + wordIndex;
@@ -35,7 +40,6 @@ function Letter({ words, wordIndex, letterIndex, letter }: LetterProps) {
 }
 
 type LetterProps = {
-	words: readonly string[];
 	wordIndex: number;
 	letterIndex: number;
 	letter: string;

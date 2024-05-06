@@ -1,4 +1,6 @@
 import { createContext } from 'react';
+import useTest from '../../hooks/useTest';
+import useTimer from '../../hooks/useTimer';
 
 type TestContextType = {
 	currentInput: string;
@@ -15,7 +17,12 @@ type TestContextType = {
 	startTime: React.MutableRefObject<number | undefined>;
 	inputFocused: boolean;
 	setInputFocused: React.Dispatch<React.SetStateAction<boolean>>;
-};
+	isTestCompleted: boolean;
+	focusInput: () => void;
+	reset: () => void;
+	words: readonly string[];
+} & ReturnType<typeof useTest> &
+	ReturnType<typeof useTimer>;
 
 const TestContext = createContext<TestContextType | null>(null);
 

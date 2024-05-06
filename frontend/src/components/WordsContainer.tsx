@@ -3,8 +3,8 @@ import { useEffect, useRef } from 'react';
 import Word from './Word';
 import useTestContext from '../context/TestContext/useTestContext';
 
-function WordsContainer({ words, focusInput }: WordsContainerProps) {
-	const { currentWordIndex } = useTestContext();
+function WordsContainer() {
+	const { currentWordIndex, focusInput, words } = useTestContext();
 
 	const previousWordRef = useRef<HTMLSpanElement>(null);
 	const currentWordRef = useRef<HTMLSpanElement>(null);
@@ -29,7 +29,6 @@ function WordsContainer({ words, focusInput }: WordsContainerProps) {
 				{words.map((word, wordIndex) => (
 					<Word
 						key={wordIndex}
-						words={words}
 						word={word}
 						wordIndex={wordIndex}
 						currentWordRef={currentWordRef}
@@ -40,10 +39,5 @@ function WordsContainer({ words, focusInput }: WordsContainerProps) {
 		</div>
 	);
 }
-
-type WordsContainerProps = {
-	words: readonly string[];
-	focusInput: () => void;
-};
 
 export default WordsContainer;

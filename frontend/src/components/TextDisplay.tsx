@@ -1,61 +1,12 @@
-import words from '../data/words';
-
 import HiddenInput from './HiddenInput';
 import ResetButton from './ResetButton';
 import WordsContainer from './WordsContainer';
 import Stats from './Stats';
 
-import useTimer from '../hooks/useTimer';
-import useTest from '../hooks/useTest';
 import useTestContext from '../context/TestContext/useTestContext';
 
 function TextDisplay() {
-	const {
-		setCurrentInput,
-		currentWordIndex,
-		setCurrentWordIndex,
-		currentLetterIndex,
-		setCurrentLetterIndex,
-		typedWords,
-		typedHistory,
-		inputRef,
-		startTime,
-		setInputFocused,
-	} = useTestContext();
-
-	const { grossWPM, netWPM, accuracy, calculateStats, resetTest } = useTest({
-		startTime: startTime.current,
-		typedWords,
-		typedHistory,
-	});
-
-	const { resetTimer, timeLeft, startTestIfNeeded } = useTimer({
-		currentWordIndex,
-		currentLetterIndex,
-		startTime,
-		calculateStats,
-	});
-
-	const isTestCompleted = currentWordIndex === words.length || timeLeft <= 0;
-
-	function focusInput() {
-		inputRef.current?.focus();
-		setInputFocused(true);
-	}
-
-	function reset() {
-		setCurrentInput('');
-		setCurrentWordIndex(0);
-		setCurrentLetterIndex(0);
-		typedWords.current = {
-			// correct: new Set<number>(),
-			incorrect: new Set<number>(),
-		};
-		typedHistory.current = {};
-		focusInput();
-		resetTimer();
-		resetTest();
-	}
+	const { grossWPM, netWPM, accuracy, isTestCompleted } = useTestContext();
 
 	if (isTestCompleted) {
 		return (
@@ -76,24 +27,16 @@ function TextDisplay() {
 						<div className='text-7xl'>{accuracy.toFixed(0)}%</div>
 					</div>
 				</div>
-				<ResetButton reset={reset} label='Start Again' autoFocus />
+				<ResetButton label='Start Again' autoFocus />
 			</div>
 		);
 	}
 
 	return (
-		<Stats
-			timeLeft={timeLeft}
-			grossWPM={grossWPM}
-			netWPM={netWPM}
-			accuracy={accuracy}>
-			<WordsContainer words={words} focusInput={focusInput} />
-			<HiddenInput
-				words={words}
-				reset={reset}
-				startTestIfNeeded={startTestIfNeeded}
-			/>
-			{/* <ResetButton reset={reset} label='Reset' /> */}
+		<Stats>
+			<WordsContainer />
+			<HiddenInput />
+			{/* <ResetButton label='Reset' /> */}
 		</Stats>
 	);
 }

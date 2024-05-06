@@ -1,4 +1,7 @@
-function Stats({ children, timeLeft, grossWPM, netWPM, accuracy }: StatsProps) {
+import useTestContext from '../context/TestContext/useTestContext';
+
+function Stats({ children }: StatsProps) {
+	const { grossWPM, netWPM, accuracy, timeLeft } = useTestContext();
 	return (
 		<div className='relative grid items-center gap-8'>
 			<h2 className='text-center text-gray-900 text-9xl'>
@@ -15,10 +18,6 @@ function Stats({ children, timeLeft, grossWPM, netWPM, accuracy }: StatsProps) {
 
 type StatsProps = {
 	children: React.ReactNode;
-	timeLeft: number;
-	grossWPM: number;
-	netWPM: number;
-	accuracy: number;
 };
 
 export default Stats;

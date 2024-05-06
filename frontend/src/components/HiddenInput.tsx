@@ -1,6 +1,6 @@
 import useTestContext from '../context/TestContext/useTestContext';
 
-function HiddenInput({ words, reset, startTestIfNeeded }: HiddenInputProps) {
+function HiddenInput() {
 	const {
 		currentInput,
 		setCurrentInput,
@@ -11,6 +11,9 @@ function HiddenInput({ words, reset, startTestIfNeeded }: HiddenInputProps) {
 		typedHistory,
 		inputRef,
 		setInputFocused,
+		startTestIfNeeded,
+		reset,
+		words,
 	} = useTestContext();
 
 	function onInputChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -106,11 +109,5 @@ function HiddenInput({ words, reset, startTestIfNeeded }: HiddenInputProps) {
 		/>
 	);
 }
-
-type HiddenInputProps = {
-	words: readonly string[];
-	reset: () => void;
-	startTestIfNeeded: () => void;
-};
 
 export default HiddenInput;

@@ -1,4 +1,8 @@
-function ResetButton({ reset, label, autoFocus = false }: ResetButtonProps) {
+import useTestContext from '../context/TestContext/useTestContext';
+
+function ResetButton({ label, autoFocus = false }: ResetButtonProps) {
+	const { reset } = useTestContext();
+
 	return (
 		<button
 			autoFocus={autoFocus}
@@ -10,7 +14,6 @@ function ResetButton({ reset, label, autoFocus = false }: ResetButtonProps) {
 }
 
 type ResetButtonProps = {
-	reset: () => void;
 	label: string;
 	autoFocus?: boolean;
 };

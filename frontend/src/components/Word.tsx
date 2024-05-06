@@ -3,14 +3,9 @@ import clsx from 'clsx';
 import Letter from './Letter';
 import useTestContext from '../context/TestContext/useTestContext';
 
-function Word({
-	words,
-	wordIndex,
-	word,
-	currentWordRef,
-	previousWordRef,
-}: WordProps) {
-	const { currentWordIndex, typedWords, typedHistory } = useTestContext();
+function Word({ wordIndex, word, currentWordRef, previousWordRef }: WordProps) {
+	const { currentWordIndex, typedWords, typedHistory, words } =
+		useTestContext();
 
 	const wordKey = words[wordIndex] + '.' + wordIndex;
 	const typedWord = typedHistory.current[wordKey] ?? '';
@@ -38,7 +33,6 @@ function Word({
 			{displayedWord.split('').map((letter, letterIndex) => (
 				<Letter
 					key={`${wordIndex}-${letterIndex}`}
-					words={words}
 					wordIndex={wordIndex}
 					letterIndex={letterIndex}
 					letter={letter}
@@ -49,7 +43,6 @@ function Word({
 }
 
 type WordProps = {
-	words: readonly string[];
 	wordIndex: number;
 	word: string;
 	currentWordRef: React.RefObject<HTMLSpanElement>;
