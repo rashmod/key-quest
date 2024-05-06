@@ -1,25 +1,11 @@
-import { useEffect, useRef } from 'react';
-
 import Word from './Word';
 import useTestContext from '../context/TestContext/useTestContext';
+import useScrollIntoView from '../hooks/useScrollIntoView';
 
 function WordsContainer() {
 	const { currentWordIndex, focusInput, words } = useTestContext();
-
-	const previousWordRef = useRef<HTMLSpanElement>(null);
-	const currentWordRef = useRef<HTMLSpanElement>(null);
-
-	useEffect(() => {
-		if (!currentWordRef.current || !previousWordRef.current) return;
-
-		if (
-			currentWordIndex !== 0 &&
-			previousWordRef.current.offsetLeft >
-				currentWordRef.current.offsetLeft
-		) {
-			previousWordRef.current.scrollIntoView();
-		}
-	}, [currentWordIndex]);
+	const { currentWordRef, previousWordRef } =
+		useScrollIntoView(currentWordIndex);
 
 	return (
 		<div className='relative h-24 px-2 overflow-y-hidden'>
