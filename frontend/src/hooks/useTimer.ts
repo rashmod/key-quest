@@ -9,7 +9,7 @@ function useTimer({
 	countOfTypedWords,
 	totalWords,
 }: useTimerInput) {
-	const MAX_TIME = 5;
+	const MAX_TIME = 115;
 	const INTERVAL_MS = 500;
 
 	const [timeLeft, setTimeLeft] = useState(MAX_TIME);

@@ -1,7 +1,13 @@
+import { useRef } from 'react';
+
 import Word from './Word';
 import useTestContext from '../context/TestContext/useTestContext';
+import useOnScreen from '../hooks/useOnScreen';
 
 function WordsContainer() {
+	const dummyRef = useRef<HTMLSpanElement>(null);
+	const isIntersecting = useOnScreen(dummyRef);
+
 	const { focusInput, words } = useTestContext();
 
 	return (
@@ -12,6 +18,7 @@ function WordsContainer() {
 				{words.map((word, wordIndex) => (
 					<Word key={wordIndex} word={word} wordIndex={wordIndex} />
 				))}
+				<span ref={dummyRef}>{isIntersecting ? '...' : ''}</span>
 			</div>
 		</div>
 	);
