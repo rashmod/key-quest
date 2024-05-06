@@ -1,6 +1,7 @@
 import { createContext } from 'react';
 import useTest from '../../hooks/useTest';
 import useTimer from '../../hooks/useTimer';
+import useScrollIntoView from '../../hooks/useScrollIntoView';
 
 type TestContextType = {
 	currentInput: string;
@@ -22,7 +23,8 @@ type TestContextType = {
 	reset: () => void;
 	words: readonly string[];
 } & ReturnType<typeof useTest> &
-	ReturnType<typeof useTimer>;
+	ReturnType<typeof useTimer> &
+	ReturnType<typeof useScrollIntoView>;
 
 const TestContext = createContext<TestContextType | null>(null);
 

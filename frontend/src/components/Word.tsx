@@ -4,9 +4,15 @@ import Letter from './Letter';
 import useTestContext from '../context/TestContext/useTestContext';
 import generateWordKey from '../utilities/generateWordKey';
 
-function Word({ wordIndex, word, currentWordRef, previousWordRef }: WordProps) {
-	const { currentWordIndex, typedWords, typedHistory, words } =
-		useTestContext();
+function Word({ wordIndex, word }: WordProps) {
+	const {
+		currentWordIndex,
+		typedWords,
+		typedHistory,
+		words,
+		currentWordRef,
+		previousWordRef,
+	} = useTestContext();
 
 	const wordKey = generateWordKey(words[wordIndex], wordIndex);
 	const typedWord = typedHistory.current[wordKey] ?? '';
@@ -46,8 +52,6 @@ function Word({ wordIndex, word, currentWordRef, previousWordRef }: WordProps) {
 type WordProps = {
 	wordIndex: number;
 	word: string;
-	currentWordRef: React.RefObject<HTMLSpanElement>;
-	previousWordRef: React.RefObject<HTMLSpanElement>;
 };
 
 export default Word;

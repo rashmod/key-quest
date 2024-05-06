@@ -3,6 +3,7 @@ import { useRef, useState } from 'react';
 import TestContext from './TestContext';
 import useTest from '../../hooks/useTest';
 import useTimer from '../../hooks/useTimer';
+import useScrollIntoView from '../../hooks/useScrollIntoView';
 
 function TestContextProvider({ children, words }: TestContextProviderProps) {
 	const [currentInput, setCurrentInput] = useState('');
@@ -34,6 +35,9 @@ function TestContextProvider({ children, words }: TestContextProviderProps) {
 			calculateStats,
 		}
 	);
+
+	const { currentWordRef, previousWordRef } =
+		useScrollIntoView(currentWordIndex);
 
 	const isTestCompleted = currentWordIndex === words.length || timeLeft <= 0;
 
@@ -84,6 +88,8 @@ function TestContextProvider({ children, words }: TestContextProviderProps) {
 				reset,
 				isTestRunning,
 				words,
+				currentWordRef,
+				previousWordRef,
 			}}>
 			{children}
 		</TestContext.Provider>
