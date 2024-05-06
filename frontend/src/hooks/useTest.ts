@@ -32,10 +32,10 @@ function useTest({ startTime, typedWords, typedHistory }: useTestInput) {
 			const normalizedWordCount = totalCharacters / 5;
 
 			const incorrectWordCount = countIncorrectWords();
-			const netWordCount =
-				normalizedWordCount - incorrectWordCount > 0
-					? normalizedWordCount - incorrectWordCount
-					: 0;
+			const netWordCount = Math.max(
+				normalizedWordCount - incorrectWordCount,
+				0
+			);
 
 			switch (input.statType) {
 				case 'wpm':
