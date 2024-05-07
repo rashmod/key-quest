@@ -10,6 +10,8 @@ function TestContextProvider({ children, words }: TestContextProviderProps) {
 	const [currentWordIndex, setCurrentWordIndex] = useState(0);
 	const [currentLetterIndex, setCurrentLetterIndex] = useState(0);
 
+	const [testWords, setTestWords] = useState(words);
+
 	const [inputFocused, setInputFocused] = useState(true);
 
 	const typedWords = useRef({
@@ -22,7 +24,7 @@ function TestContextProvider({ children, words }: TestContextProviderProps) {
 	const startTime = useRef<number>();
 
 	const countOfTypedWords = Object.keys(typedHistory.current).length;
-	const totalWords = words.length;
+	const totalWords = testWords.length;
 
 	const { grossWPM, netWPM, accuracy, calculateStats, resetTest } = useTest({
 		startTime: startTime.current,
@@ -44,7 +46,8 @@ function TestContextProvider({ children, words }: TestContextProviderProps) {
 	const { currentWordRef, previousWordRef } =
 		useScrollIntoView(currentWordIndex);
 
-	const isTestCompleted = currentWordIndex === words.length || timeLeft <= 0;
+	const isTestCompleted =
+		currentWordIndex === testWords.length || timeLeft <= 0;
 
 	function focusInput() {
 		if (!inputRef.current) return;
@@ -64,6 +67,10 @@ function TestContextProvider({ children, words }: TestContextProviderProps) {
 		focusInput();
 		resetTimer();
 		resetTest();
+	}
+
+	function doubleWords() {
+		setTestWords((prev) => prev.concat(words));
 	}
 
 	return (
@@ -93,9 +100,10 @@ function TestContextProvider({ children, words }: TestContextProviderProps) {
 				focusInput,
 				reset,
 				isTestRunning,
-				words,
+				words: testWords,
 				currentWordRef,
 				previousWordRef,
+				doubleWords,
 			}}>
 			{children}
 		</TestContext.Provider>

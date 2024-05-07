@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 import Word from './Word';
 import useTestContext from '../context/TestContext/useTestContext';
@@ -6,9 +6,16 @@ import useOnScreen from '../hooks/useOnScreen';
 
 function WordsContainer() {
 	const dummyRef = useRef<HTMLSpanElement>(null);
-	const isIntersecting = useOnScreen(dummyRef);
+	const [isIntersecting, setIsIntersecting] = useOnScreen(dummyRef);
 
-	const { focusInput, words } = useTestContext();
+	const { focusInput, words, doubleWords } = useTestContext();
+
+	useEffect(() => {
+		if (isIntersecting) {
+			setIsIntersecting(false);
+			doubleWords();
+		}
+	}, [isIntersecting, doubleWords, setIsIntersecting]);
 
 	return (
 		<div className='relative h-24 px-2 overflow-y-hidden'>

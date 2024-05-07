@@ -22,6 +22,7 @@ type TestContextType = {
 	focusInput: () => void;
 	reset: () => void;
 	words: readonly string[];
+	doubleWords: () => void;
 } & ReturnType<typeof useTest> &
 	ReturnType<typeof useTimer> &
 	ReturnType<typeof useScrollIntoView>;
