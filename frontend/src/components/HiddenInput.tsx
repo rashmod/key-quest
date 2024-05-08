@@ -21,33 +21,33 @@ function HiddenInput() {
 		startTestIfNeeded();
 
 		const value = event.target.value;
+		const trimmedValue = value.trim();
 		const isCurrentWordCompleted = value.match(/\s/);
 
 		const wordKey = generateWordKey(
 			words[currentWordIndex],
 			currentWordIndex
 		);
-		typedHistory.current[wordKey] = value.trim();
+		typedHistory.current[wordKey] = trimmedValue;
 
-		// console.log(value.replace(/\s/g, '_'), value.length);
-		// console.log(typedHistory.current);
+		const wordIsCorrect = isWordCorrect(trimmedValue);
+
+		if (wordIsCorrect.prefix)
+			typedWords.current.incorrect.delete(currentWordIndex);
+		else typedWords.current.incorrect.add(currentWordIndex);
 
 		if (isCurrentWordCompleted) {
-			// if (isWordCorrect())
-			// 	typedWords.current.correct.add(currentWordIndex);
-			// else typedWords.current.incorrect.add(currentWordIndex);
-
-			if (!isWordCorrect())
-				typedWords.current.incorrect.add(currentWordIndex);
-
 			setCurrentInput('');
 			setCurrentWordIndex((current) => current + 1);
 			setCurrentLetterIndex(0);
-			return;
-		}
 
-		setCurrentInput(value);
-		setCurrentLetterIndex(value.length);
+			if (wordIsCorrect.complete)
+				typedWords.current.incorrect.delete(currentWordIndex);
+			else typedWords.current.incorrect.add(currentWordIndex);
+		} else {
+			setCurrentInput(value);
+			setCurrentLetterIndex(value.length);
+		}
 	}
 
 	function onKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
@@ -75,8 +75,8 @@ function HiddenInput() {
 					const previousWord = typedHistory.current[previousWordKey];
 
 					delete typedHistory.current[currentWordKey];
-					typedWords.current.incorrect.delete(previousWordIndex);
-					typedHistory.current[previousWordKey] = '';
+					// typedWords.current.incorrect.delete(previousWordIndex);
+					// typedHistory.current[previousWordKey] = '';
 
 					if (event.ctrlKey) {
 						setCurrentWordIndex((current) => current - 1);
@@ -95,8 +95,11 @@ function HiddenInput() {
 		}
 	}
 
-	function isWordCorrect() {
-		return words[currentWordIndex] === currentInput;
+	function isWordCorrect(value: string) {
+		return {
+			prefix: words[currentWordIndex].startsWith(value),
+			complete: words[currentWordIndex] === value,
+		};
 	}
 
 	return (
