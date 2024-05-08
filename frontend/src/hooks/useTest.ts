@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react';
+import { AVERAGE_NUMBER_OF_LETTERS_IN_WORD } from '../constants/constants';
 
 function useTest({ startTime, typedWords, typedHistory }: useTestInput) {
 	const [grossWPM, setGrossWPM] = useState(0);
@@ -29,7 +30,8 @@ function useTest({ startTime, typedWords, typedHistory }: useTestInput) {
 			const SpacesCount = Math.max(charactersTyped - 1, 0);
 			const totalCharacters = charactersTyped + SpacesCount;
 
-			const normalizedWordCount = totalCharacters / 5;
+			const normalizedWordCount =
+				totalCharacters / AVERAGE_NUMBER_OF_LETTERS_IN_WORD;
 
 			const incorrectWordCount = countIncorrectWords();
 			const netWordCount = Math.max(
@@ -46,7 +48,9 @@ function useTest({ startTime, typedWords, typedHistory }: useTestInput) {
 					}
 					break;
 				case 'accuracy':
-					setAccuracy((netWordCount / normalizedWordCount) * 100);
+					if (netWordCount === 0) setAccuracy(0);
+					else
+						setAccuracy((netWordCount / normalizedWordCount) * 100);
 					break;
 			}
 		},
