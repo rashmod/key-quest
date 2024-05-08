@@ -6,14 +6,21 @@ function useTest({ startTime, typedWords, typedHistory }: useTestInput) {
 	const [netWPM, setNetWPM] = useState(0);
 	const [accuracy, setAccuracy] = useState(0);
 
-	const countCharacters = useCallback(() => {
-		let count = 0;
-		for (const key in typedHistory.current) {
-			const value = typedHistory.current[key];
-			count += value.length;
-		}
-		return count;
-	}, [typedHistory]);
+	const analyzeText = useCallback(
+		(type: 'characters' | 'words') => {
+			let count = 0;
+			for (const key in typedHistory.current) {
+				if (type === 'characters') {
+					const value = typedHistory.current[key];
+					count += value.length;
+				} else {
+					count++;
+				}
+			}
+			return count;
+		},
+		[typedHistory]
+	);
 
 	const countIncorrectWords = useCallback(() => {
 		return typedWords.current.incorrect.size;
@@ -26,8 +33,9 @@ function useTest({ startTime, typedWords, typedHistory }: useTestInput) {
 			const elapsedTime = Date.now() - startTime;
 			const timeInMinutes = elapsedTime / (1000 * 60);
 
-			const charactersTyped = countCharacters();
-			const SpacesCount = Math.max(charactersTyped - 1, 0);
+			const charactersTyped = analyzeText('characters');
+			const wordsTyped = analyzeText('words');
+			const SpacesCount = Math.max(wordsTyped - 1, 0);
 			const totalCharacters = charactersTyped + SpacesCount;
 
 			const normalizedWordCount =
@@ -54,7 +62,7 @@ function useTest({ startTime, typedWords, typedHistory }: useTestInput) {
 					break;
 			}
 		},
-		[startTime, countCharacters, countIncorrectWords]
+		[startTime, analyzeText, countIncorrectWords]
 	);
 
 	function resetTest() {
