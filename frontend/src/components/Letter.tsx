@@ -18,7 +18,7 @@ function Letter({ wordIndex, letterIndex, letter }: LetterProps) {
 	const isLetterTyped = !!typedLetter;
 	const isTypedLetterIncorrect = isLetterTyped && typedLetter !== letter;
 	const isLetterExtra = letterIndex >= word.length;
-	const isCorrect = !(isTypedLetterIncorrect || isLetterExtra);
+	const isIncorrect = isTypedLetterIncorrect || isLetterExtra;
 
 	const showCaret =
 		inputFocused &&
@@ -29,8 +29,10 @@ function Letter({ wordIndex, letterIndex, letter }: LetterProps) {
 		<span
 			className={clsx({
 				'text-white':
-					wordIndex < currentWordIndex && isCorrect && isLetterTyped,
-				'text-red-500': !isCorrect,
+					wordIndex < currentWordIndex &&
+					!isIncorrect &&
+					isLetterTyped,
+				'text-red-500': isIncorrect,
 				'text-opacity-40': isLetterExtra,
 				'relative before:bg-white before:h-[1.5em] before:w-[1.5px] before:absolute before:-left-0.5 before:top-0 before:z-50 before:animate-blink':
 					showCaret,
