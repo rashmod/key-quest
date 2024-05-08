@@ -41,9 +41,11 @@ function HiddenInput() {
 			setCurrentWordIndex((current) => current + 1);
 			setCurrentLetterIndex(0);
 
-			if (wordIsCorrect.complete)
+			if (wordIsCorrect.complete) {
 				typedWords.current.incorrect.delete(currentWordIndex);
-			else typedWords.current.incorrect.add(currentWordIndex);
+			} else {
+				typedWords.current.incorrect.add(currentWordIndex);
+			}
 		} else {
 			setCurrentInput(value);
 			setCurrentLetterIndex(value.length);
@@ -73,8 +75,18 @@ function HiddenInput() {
 						previousWordIndex
 					);
 					const previousWord = typedHistory.current[previousWordKey];
+					const isPreviousWordCorrect = isWordCorrect(
+						previousWord,
+						previousWordIndex
+					).prefix;
 
 					delete typedHistory.current[currentWordKey];
+					typedWords.current.incorrect.delete(currentWordIndex);
+
+					if (isPreviousWordCorrect) {
+						typedWords.current.incorrect.delete(previousWordIndex);
+					}
+
 					// typedWords.current.incorrect.delete(previousWordIndex);
 					// typedHistory.current[previousWordKey] = '';
 
@@ -95,10 +107,10 @@ function HiddenInput() {
 		}
 	}
 
-	function isWordCorrect(value: string) {
+	function isWordCorrect(value: string, index = currentWordIndex) {
 		return {
-			prefix: words[currentWordIndex].startsWith(value),
-			complete: words[currentWordIndex] === value,
+			prefix: words[index].startsWith(value),
+			complete: words[index] === value,
 		};
 	}
 
