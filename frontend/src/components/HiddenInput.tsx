@@ -87,13 +87,12 @@ function HiddenInput() {
 						typedWords.current.incorrect.delete(previousWordIndex);
 					}
 
-					// typedWords.current.incorrect.delete(previousWordIndex);
-					// typedHistory.current[previousWordKey] = '';
-
 					if (event.ctrlKey) {
 						setCurrentWordIndex((current) => current - 1);
 						setCurrentLetterIndex(0);
 						setCurrentInput('');
+						typedWords.current.incorrect.delete(previousWordIndex);
+						typedHistory.current[previousWordKey] = '';
 					} else {
 						setCurrentWordIndex((current) => current - 1);
 						setCurrentLetterIndex(previousWord.length);
