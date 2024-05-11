@@ -16,7 +16,9 @@ class Graph {
 	}
 
 	private initializeGraph() {
-		this.data = FileHelper.readFile('inputs', 'word.txt').split('\n');
+		this.data = FileHelper.readFile('..', 'inputs', 'words.txt').split(
+			'\n'
+		);
 		this.initializeGraphData();
 	}
 
@@ -76,7 +78,12 @@ class Graph {
 			}
 		}
 
-		FileHelper.writeFile(JSON.stringify(data), 'inputs', 'graph.json');
+		FileHelper.writeFile(
+			JSON.stringify(data),
+			'..',
+			'inputs',
+			'graph.json'
+		);
 	}
 
 	private generateMap() {
@@ -86,7 +93,7 @@ class Graph {
 	}
 
 	private generateProbabilityDensityOfWordLength() {
-		const data = FileHelper.readFile('inputs', 'word_frequency.txt');
+		const data = FileHelper.readFile('..', 'inputs', 'word_frequency.txt');
 
 		const cleanData = data.split('\n').map((x) => {
 			const [word, frequency] = x.replace('\r', '').split('\t');
@@ -96,6 +103,7 @@ class Graph {
 
 		FileHelper.writeFile(
 			JSON.stringify(cleanData),
+			'..',
 			'inputs',
 			'clean_data.txt'
 		);
