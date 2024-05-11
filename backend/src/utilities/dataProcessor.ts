@@ -14,7 +14,7 @@ function readAndWriteData() {
 		'utf8'
 	);
 	const cleanedData = processData(data);
-	writeFileSync(path.join(__dirname, 'inputs', 'word.txt'), cleanedData);
+	writeFileSync(path.join(__dirname, 'inputs', 'words.txt'), cleanedData);
 }
 
 export default readAndWriteData;
