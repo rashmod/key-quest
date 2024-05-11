@@ -6,11 +6,13 @@ class Graph {
 	data: string[] = [];
 	graphData: number[][] = [];
 	map: { [key: number]: string } = {};
+	normalizedWordLengthProbabilityDensity: { [key: number]: number } = {};
 
 	constructor() {
 		this.initializeGraph();
 		this.connectGraph();
 		this.generateMap();
+		this.generateProbabilityDensityOfWordLength();
 	}
 
 	private initializeGraph() {
@@ -81,6 +83,52 @@ class Graph {
 		for (const [key, value] of Object.entries(Nodes)) {
 			if (typeof value === 'string') this.map[+key] = value;
 		}
+	}
+
+	private generateProbabilityDensityOfWordLength() {
+		const data = FileHelper.readFile('inputs', 'word_frequency.txt');
+
+		const cleanData = data.split('\n').map((x) => {
+			const [word, frequency] = x.replace('\r', '').split('\t');
+
+			return { word, frequency: +frequency, length: word.length };
+		});
+
+		FileHelper.writeFile(
+			JSON.stringify(cleanData),
+			'inputs',
+			'clean_data.txt'
+		);
+
+		const totalFrequency = cleanData.reduce(
+			(acc, curr) => acc + curr.frequency,
+			0
+		);
+
+		const wordLengthProbabilities = cleanData.reduce(
+			(acc: Record<string, number>, curr) => {
+				const length = curr.length;
+				const frequency = curr.frequency;
+				acc[length] = (acc[length] || 0) + frequency / totalFrequency;
+				return acc;
+			},
+			{}
+		);
+
+		const totalProbability = Object.values(wordLengthProbabilities).reduce(
+			(acc, curr) => acc + curr,
+			0
+		);
+
+		const normalizedWordLengthProbabilities = Object.entries(
+			wordLengthProbabilities
+		).reduce((acc: Record<string, number>, [key, value]) => {
+			acc[key] = value / totalProbability;
+			return acc;
+		}, {});
+
+		this.normalizedWordLengthProbabilityDensity =
+			normalizedWordLengthProbabilities;
 	}
 }
 
