@@ -1,17 +1,14 @@
 import useTestContext from '../context/TestContext/useTestContext';
+import StatCard from './StatCard';
 
 function Stats({ children }: StatsProps) {
-	const { grossWPM, netWPM, accuracy, timeLeft } = useTestContext();
+	const { timeLeft } = useTestContext();
+
 	return (
-		<div className='relative grid items-center gap-8'>
-			<h2 className='text-center text-gray-900 text-9xl'>
-				{timeLeft.toFixed(0)}
-			</h2>
-			<div className='w-1/2 mx-auto'>{children}</div>
-			<h2 className='text-center text-gray-900 text-7xl'>
-				{grossWPM.toFixed(0)} WPM -- {netWPM.toFixed(0)} Net WPM --{' '}
-				{accuracy.toFixed(0)}%
-			</h2>
+		<div className='relative grid items-center w-1/2 gap-8 mx-auto text-gray-900'>
+			<h2 className='text-center text-9xl'>{timeLeft.toFixed(0)}</h2>
+			<div>{children}</div>
+			<StatCard />
 		</div>
 	);
 }
