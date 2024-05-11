@@ -29,7 +29,7 @@ function Letter({ wordIndex, letterIndex, letter }: LetterProps) {
 		<span
 			className={clsx({
 				'text-white':
-					wordIndex < currentWordIndex &&
+					wordIndex <= currentWordIndex &&
 					!isIncorrect &&
 					isLetterTyped,
 				'text-red-500': isIncorrect,

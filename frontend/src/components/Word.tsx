@@ -26,7 +26,6 @@ function Word({ wordIndex, word }: WordProps) {
 	return (
 		<span
 			className={clsx({
-				'text-white': wordIndex === currentWordIndex,
 				'underline underline-offset-4 decoration-red-500':
 					isWordIncorrect,
 			})}
