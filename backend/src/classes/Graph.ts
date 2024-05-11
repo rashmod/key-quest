@@ -5,10 +5,12 @@ class Graph {
 	size = 29;
 	data: string[] = [];
 	graphData: number[][] = [];
+	map: { [key: number]: string } = {};
 
 	constructor() {
 		this.initializeGraph();
 		this.connectGraph();
+		this.generateMap();
 	}
 
 	private initializeGraph() {
@@ -49,6 +51,36 @@ class Graph {
 		nextNode: keyof typeof Nodes
 	) {
 		this.graphData[Nodes[node]][Nodes[nextNode]] += 1;
+	}
+
+	writeFile() {
+		const data: { [key: string]: any } = {
+			object: {},
+			array: this.graphData,
+		};
+
+		for (const [key, value] of Object.entries(Nodes)) {
+			if (typeof value === 'number') data.object[key] = value;
+		}
+		const temp = { ...data.object };
+
+		for (const [key] of Object.entries(data.object)) {
+			data.object[key] = { ...temp };
+		}
+
+		for (let i = 0; i < this.size; i++) {
+			for (let j = 0; j < this.size; j++) {
+				data.object[this.map[i]][this.map[j]] = this.graphData[i][j];
+			}
+		}
+
+		FileHelper.writeFile(JSON.stringify(data), 'inputs', 'graph.json');
+	}
+
+	private generateMap() {
+		for (const [key, value] of Object.entries(Nodes)) {
+			if (typeof value === 'string') this.map[+key] = value;
+		}
 	}
 }
 
