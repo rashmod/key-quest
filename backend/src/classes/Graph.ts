@@ -130,6 +130,83 @@ class Graph {
 		this.normalizedWordLengthProbabilityDensity =
 			normalizedWordLengthProbabilities;
 	}
+
+	generateWord() {
+		const word: string[] = [];
+
+		let current = Nodes.start;
+
+		current = Nodes.start;
+		while (current !== Nodes.end) {
+			const node = this.getNextNode(current, word.length);
+			const letter = this.map[node];
+
+			if (letter === 'end') break;
+
+			word.push(letter);
+			current = node;
+		}
+
+		return word.join('');
+	}
+
+	private getNextNode(start: number, currentWordLength: number): number {
+		const endProbability = this.calculateEndProbability(currentWordLength);
+		const newEndFrequency = Math.ceil(
+			endProbability * this.graphData[start][Nodes.total]
+		);
+
+		const adjustedFrequencies = this.adjustFrequencies(
+			this.graphData[start],
+			newEndFrequency
+		);
+
+		const randomNumber = Math.floor(
+			Math.random() * adjustedFrequencies[Nodes.total]
+		);
+
+		return this.findIndex(randomNumber, adjustedFrequencies);
+	}
+
+	private calculateEndProbability(currentWordLength: number) {
+		let endProbability = 0;
+
+		for (const key in this.normalizedWordLengthProbabilityDensity) {
+			if (currentWordLength < +key) break;
+			endProbability += this.normalizedWordLengthProbabilityDensity[+key];
+		}
+
+		const pointsToNullProbability =
+			this.graphData[Nodes.a][Nodes.end] /
+			this.graphData[Nodes.a][Nodes.total];
+		const notEndProbability = 1 - pointsToNullProbability;
+		const willItEndProbability =
+			endProbability / (endProbability + notEndProbability);
+
+		return willItEndProbability;
+	}
+
+	private adjustFrequencies(frequencies: number[], newEndFrequency: number) {
+		const adjustedFrequencies = [...frequencies];
+		const oldEndFrequency = adjustedFrequencies[Nodes.end];
+		const oldTotal = adjustedFrequencies[Nodes.total];
+
+		adjustedFrequencies[Nodes.end] = newEndFrequency;
+		adjustedFrequencies[Nodes.total] =
+			oldTotal - oldEndFrequency + newEndFrequency;
+
+		return adjustedFrequencies;
+	}
+
+	private findIndex(randomNumber: number, frequencies: number[]) {
+		let cumulative = 0;
+
+		for (let i = 0; i < this.size; i++) {
+			cumulative += frequencies[i];
+			if (cumulative >= randomNumber) return i;
+		}
+		return NaN;
+	}
 }
 
 export default Graph;
