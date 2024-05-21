@@ -79,13 +79,19 @@ function TestContextProvider({ children }: TestContextProviderProps) {
 		focusInput();
 		resetTimer();
 		resetTest();
+		setWords(generateWords());
+	}
+
+	function generateWords(count = 10) {
+		const generatedWords: string[] = [];
+		for (let i = 0; i < count; i++) {
+			generatedWords.push(generateWord());
+		}
+		return generatedWords;
 	}
 
 	function getMoreWords() {
-		const generatedWords: string[] = [];
-		for (let i = 0; i < 10; i++) {
-			generatedWords.push(generateWord());
-		}
+		const generatedWords = generateWords();
 		setWords((prev) => prev.concat(generatedWords));
 	}
 
