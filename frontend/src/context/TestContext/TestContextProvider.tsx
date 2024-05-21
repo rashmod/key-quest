@@ -27,11 +27,12 @@ function TestContextProvider({ children }: TestContextProviderProps) {
 	const countOfTypedWords = Object.keys(typedHistory.current).length;
 	const totalWords = words.length;
 
-	const { grossWPM, netWPM, accuracy, calculateStats, resetTest } = useTest({
-		startTime: startTime.current,
-		typedWords,
-		typedHistory,
-	});
+	const { grossWPM, netWPM, accuracy, calculateStats, resetTestStats } =
+		useTest({
+			startTime: startTime.current,
+			typedWords,
+			typedHistory,
+		});
 
 	const { resetTimer, timeLeft, startTestIfNeeded, isTestRunning } = useTimer(
 		{
@@ -78,7 +79,7 @@ function TestContextProvider({ children }: TestContextProviderProps) {
 		typedHistory.current = {};
 		focusInput();
 		resetTimer();
-		resetTest();
+		resetTestStats();
 		setWords(generateWords());
 	}
 
@@ -116,7 +117,7 @@ function TestContextProvider({ children }: TestContextProviderProps) {
 				netWPM,
 				accuracy,
 				calculateStats,
-				resetTest,
+				resetTestStats,
 				resetTimer,
 				timeLeft,
 				startTestIfNeeded,
