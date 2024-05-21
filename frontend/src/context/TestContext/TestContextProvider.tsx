@@ -1,16 +1,17 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import TestContext from './TestContext';
 import useTest from '../../hooks/useTest';
 import useTimer from '../../hooks/useTimer';
 import useScrollIntoView from '../../hooks/useScrollIntoView';
+import useGraph from '../../hooks/useGraph';
 
-function TestContextProvider({ children, words }: TestContextProviderProps) {
+function TestContextProvider({ children }: TestContextProviderProps) {
 	const [currentInput, setCurrentInput] = useState('');
 	const [currentWordIndex, setCurrentWordIndex] = useState(0);
 	const [currentLetterIndex, setCurrentLetterIndex] = useState(0);
 
-	const [testWords, setTestWords] = useState(words);
+	const [words, setWords] = useState<string[]>([]);
 
 	const [inputFocused, setInputFocused] = useState(true);
 
@@ -24,7 +25,7 @@ function TestContextProvider({ children, words }: TestContextProviderProps) {
 	const startTime = useRef<number>();
 
 	const countOfTypedWords = Object.keys(typedHistory.current).length;
-	const totalWords = testWords.length;
+	const totalWords = words.length;
 
 	const { grossWPM, netWPM, accuracy, calculateStats, resetTest } = useTest({
 		startTime: startTime.current,
@@ -46,8 +47,19 @@ function TestContextProvider({ children, words }: TestContextProviderProps) {
 	const { currentWordRef, previousWordRef } =
 		useScrollIntoView(currentWordIndex);
 
-	const isTestCompleted =
-		currentWordIndex === testWords.length || timeLeft <= 0;
+	const { generateWord, graphDataLoaded } = useGraph();
+
+	useEffect(() => {
+		if (!graphDataLoaded) return;
+
+		const generatedWords: string[] = [];
+		for (let i = 0; i < 10; i++) {
+			generatedWords.push(generateWord());
+		}
+		setWords((prev) => prev.concat(generatedWords));
+	}, [graphDataLoaded, generateWord]);
+
+	const isTestCompleted = currentWordIndex === words.length || timeLeft <= 0;
 
 	function focusInput() {
 		if (!inputRef.current) return;
@@ -69,9 +81,15 @@ function TestContextProvider({ children, words }: TestContextProviderProps) {
 		resetTest();
 	}
 
-	function doubleWords() {
-		setTestWords((prev) => prev.concat(words));
+	function getMoreWords() {
+		const generatedWords: string[] = [];
+		for (let i = 0; i < 10; i++) {
+			generatedWords.push(generateWord());
+		}
+		setWords((prev) => prev.concat(generatedWords));
 	}
+
+	console.log(words);
 
 	return (
 		<TestContext.Provider
@@ -100,10 +118,10 @@ function TestContextProvider({ children, words }: TestContextProviderProps) {
 				focusInput,
 				reset,
 				isTestRunning,
-				words: testWords,
+				words,
 				currentWordRef,
 				previousWordRef,
-				doubleWords,
+				getMoreWords,
 			}}>
 			{children}
 		</TestContext.Provider>
@@ -112,7 +130,6 @@ function TestContextProvider({ children, words }: TestContextProviderProps) {
 
 type TestContextProviderProps = {
 	children: React.ReactNode;
-	words: readonly string[];
 };
 
 export default TestContextProvider;

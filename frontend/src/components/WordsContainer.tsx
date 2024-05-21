@@ -8,14 +8,14 @@ function WordsContainer() {
 	const dummyRef = useRef<HTMLSpanElement>(null);
 	const [isIntersecting, setIsIntersecting] = useOnScreen(dummyRef);
 
-	const { focusInput, words, doubleWords } = useTestContext();
+	const { focusInput, words, getMoreWords } = useTestContext();
 
 	useEffect(() => {
 		if (isIntersecting) {
 			setIsIntersecting(false);
-			doubleWords();
+			getMoreWords();
 		}
-	}, [isIntersecting, doubleWords, setIsIntersecting]);
+	}, [isIntersecting, getMoreWords, setIsIntersecting]);
 
 	return (
 		<div className='relative h-24 px-2 overflow-y-hidden'>
