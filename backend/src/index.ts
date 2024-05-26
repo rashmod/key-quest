@@ -1,7 +1,6 @@
-import express from 'express';
+import Graph from './classes/Graph';
 
-const app = express();
-
-app.listen(3000, () => {
-	console.log('Listening on port 3000');
-});
+const graph = new Graph();
+for (let i = 0; i < 15; i++) {
+	console.log(graph.generateWord());
+}
