@@ -12,25 +12,58 @@ type WordData = { word: string; frequency: number; length: number };
 type NGram = 'UNIGRAM' | 'BIGRAM' | 'TRIGRAM';
 
 class SparseGraph {
-	private adjacencyList: AdjacencyList;
+	private adjacencyList: AdjacencyList = {};
 	private data: WordData[] = [];
-	wordLengthFrequencies: { [key: number]: number } = {};
+	private wordLengthFrequencies: { [key: number]: number } = {};
 
 	private ngrams = ['UNIGRAM', 'BIGRAM', 'TRIGRAM'] as const;
 	private UNIGRAM = 1;
 	private BIGRAM = 2;
 	private TRIGRAM = 3;
 
-	constructor() {
-		this.adjacencyList = {};
-		this.initializeGraph();
-		this.connectGraph();
-		this.generateFrequencyForWordLength();
-		console.log('constructor complete');
+	constructor(env: 'setup' | 'run') {
+		if (env === 'setup') {
+			this.deletePreviousFiles();
+			this.getWordsData();
+			this.connectGraph();
+			this.generateFrequencyForWordLength();
+
+			this.writeToFile(this.adjacencyList, 'inputs', 'sparseGraph.json');
+
+			this.writeToFile(
+				this.wordLengthFrequencies,
+				'inputs',
+				'wordLengthFrequencies.json'
+			);
+		} else {
+			try {
+				this.initializeGraphData();
+			} catch (error) {
+				console.log('------------------');
+				console.log('GRAPH DATA NOT FOUND');
+				console.log('RUN SETUP SCRIPT FIRST');
+				console.log('run: npm run setup');
+				console.log('------------------');
+			}
+		}
 	}
 
-	private initializeGraph() {
-		this.data = FileHelper.readFile('..', 'inputs', 'word_frequency.txt')
+	private initializeGraphData() {
+		this.adjacencyList = JSON.parse(
+			FileHelper.readFile('inputs', 'sparseGraph.json')
+		);
+		this.wordLengthFrequencies = JSON.parse(
+			FileHelper.readFile('inputs', 'wordLengthFrequencies.json')
+		);
+	}
+
+	private deletePreviousFiles() {
+		FileHelper.deleteFile('inputs', 'sparseGraph.json');
+		FileHelper.deleteFile('inputs', 'wordLengthFrequencies.json');
+	}
+
+	private getWordsData() {
+		this.data = FileHelper.readFile('inputs', 'word_frequency.txt')
 			.split('\n')
 			.map((x) => {
 				const [word, frequency] = x.split('\t').map((x) => x.trim());
@@ -42,15 +75,10 @@ class SparseGraph {
 			});
 	}
 
-	writeToFile() {
-		console.log('writing');
-		FileHelper.writeFile(
-			JSON.stringify(this.adjacencyList),
-			'..',
-			'inputs',
-			'sparseGraph.json.txt'
-		);
-		console.log('writing complete');
+	private writeToFile(data: any, ...location: string[]) {
+		console.log('writing', location[location.length - 1]);
+		FileHelper.writeFile(JSON.stringify(data), ...location);
+		console.log('writing complete', location[location.length - 1]);
 	}
 
 	private addNode(node: string) {
