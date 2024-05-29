@@ -116,14 +116,10 @@ class SparseGraph {
 		if (index === word.length - start.length)
 			this.addEdge(start, 'END', frequency);
 
-		const nextUnigram = this.getNGram('UNIGRAM', word, nextStart);
-		if (nextUnigram) this.addEdge(start, nextUnigram, frequency);
-
-		const nextBigram = this.getNGram('BIGRAM', word, nextStart);
-		if (nextBigram) this.addEdge(start, nextBigram, frequency);
-
-		const nextTrigram = this.getNGram('TRIGRAM', word, nextStart);
-		if (nextTrigram) this.addEdge(start, nextTrigram, frequency);
+		this.ngrams.forEach((gram) => {
+			const ngram = this.getNGram(gram, word, nextStart);
+			if (ngram) this.addEdge(start, ngram, frequency);
+		});
 	}
 
 	private connectGraph() {
