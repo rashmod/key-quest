@@ -4,9 +4,11 @@ import TestContext from './TestContext';
 import useTest from '../../hooks/useTest';
 import useTimer from '../../hooks/useTimer';
 import useScrollIntoView from '../../hooks/useScrollIntoView';
-import useGraph from '../../hooks/useGraph';
 
-function TestContextProvider({ children }: TestContextProviderProps) {
+function TestContextProvider({
+	children,
+	generateWord,
+}: TestContextProviderProps) {
 	const [currentInput, setCurrentInput] = useState('');
 	const [currentWordIndex, setCurrentWordIndex] = useState(0);
 	const [currentLetterIndex, setCurrentLetterIndex] = useState(0);
@@ -48,17 +50,13 @@ function TestContextProvider({ children }: TestContextProviderProps) {
 	const { currentWordRef, previousWordRef } =
 		useScrollIntoView(currentWordIndex);
 
-	const { generateWord, graphDataLoaded } = useGraph();
-
 	useEffect(() => {
-		if (!graphDataLoaded) return;
-
 		const generatedWords: string[] = [];
 		for (let i = 0; i < 10; i++) {
 			generatedWords.push(generateWord());
 		}
 		setWords((prev) => prev.concat(generatedWords));
-	}, [graphDataLoaded, generateWord]);
+	}, [generateWord]);
 
 	const isTestCompleted = currentWordIndex === words.length || timeLeft <= 0;
 
@@ -137,6 +135,7 @@ function TestContextProvider({ children }: TestContextProviderProps) {
 
 type TestContextProviderProps = {
 	children: React.ReactNode;
+	generateWord: () => string;
 };
 
 export default TestContextProvider;
